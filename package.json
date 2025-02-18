@@ -1,0 +1,30 @@
+{
+  "name": "supervision-platform",
+  "version": "1.0.0",
+  "description": "督办管理平台",
+  "scripts": {
+    "dev": "uni",
+    "build": "uni build",
+    "dev:h5": "uni",
+    "build:h5": "uni build",
+    "dev:mp-weixin": "uni -p mp-weixin",
+    "build:mp-weixin": "uni build -p mp-weixin",
+    "format": "prettier --write \"src/**/*.{js,vue,json}\"",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@dcloudio/uni-app": "2.0.2",
+    "@dcloudio/uni-h5": "2.0.2",
+    "@dcloudio/uni-helper-json": "1.0.13",
+    "@dcloudio/uni-mp-weixin": "2.0.2",
+    "@dcloudio/uni-stat": "2.0.2",
+    "vue": "^2.6.11",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@dcloudio/uni-cli-shared": "2.0.2",
+    "@dcloudio/vue-cli-plugin-uni": "2.0.2",
+    "@vue/cli-plugin-babel": "4.5.15",
+    "@vue/cli-service": "4.5.15"
+  }
+}

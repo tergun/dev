@@ -1,0 +1,70 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "督办管理平台"
+      }
+    },
+    {
+      "path": "pages/proposal/list",
+      "style": {
+        "navigationBarTitleText": "建议提案管理"
+      }
+    },
+    {
+      "path": "pages/project/list",
+      "style": {
+        "navigationBarTitleText": "重点项目管理"
+      }
+    },
+    {
+      "path": "pages/proposal/detail",
+      "style": {
+        "navigationBarTitleText": "建议详情"
+      }
+    },
+    {
+      "path": "pages/proposal/create",
+      "style": {
+        "navigationBarTitleText": "新建建议"
+      }
+    },
+    {
+      "path": "pages/project/detail",
+      "style": {
+        "navigationBarTitleText": "项目详情"
+      }
+    },
+    {
+      "path": "pages/project/update",
+      "style": {
+        "navigationBarTitleText": "更新进度"
+      }
+    }
+  ],
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#1890ff",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/proposal/list",
+        "text": "建议提案",
+        "iconPath": "static/images/proposal.png",
+        "selectedIconPath": "static/images/proposal-active.png"
+      },
+      {
+        "pagePath": "pages/project/list",
+        "text": "重点项目",
+        "iconPath": "static/images/project.png",
+        "selectedIconPath": "static/images/project-active.png"
+      }
+    ]
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  }
+}
