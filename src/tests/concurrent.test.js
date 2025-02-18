@@ -1,8 +1,12 @@
 import axios from 'axios'
-import { isDesktop } from '../utils/platform'
+import { isDesktop } from '../utils/platform.js'
+import server from './server.js'
 
 const BASE_URL = 'http://localhost:3000'
 const CONCURRENT_REQUESTS = 50
+
+// Wait for server to start
+await new Promise(resolve => setTimeout(resolve, 1000))
 
 // Test concurrent mobile access
 const testMobileAccess = async () => {
@@ -83,4 +87,8 @@ const runTests = async () => {
   return allPassed
 }
 
-runTests()
+try {
+  await runTests()
+} finally {
+  server.close()
+}
