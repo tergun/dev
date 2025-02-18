@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "@vue/cli-service": "^5.0.8",
+    "prettier": "^3.5.1"
+  }
+}
