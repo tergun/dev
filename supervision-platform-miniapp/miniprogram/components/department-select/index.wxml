@@ -1,0 +1,19 @@
+<view class="department-select">
+  <view class="department-list">
+    <view 
+      wx:for="{{departments}}" 
+      wx:key="id"
+      class="department-item {{item.selected ? 'selected' : ''}}"
+      bindtap="toggleDepartment"
+      data-id="{{item.id}}"
+    >
+      <text>{{item.name}}</text>
+      <view class="checkbox {{item.selected ? 'checked' : ''}}"></view>
+    </view>
+  </view>
+
+  <view class="button-group">
+    <button class="button button-outline" bindtap="clearSelection">清空</button>
+    <button class="button" bindtap="confirmSelection" disabled="{{!hasSelection}}">确认</button>
+  </view>
+</view>

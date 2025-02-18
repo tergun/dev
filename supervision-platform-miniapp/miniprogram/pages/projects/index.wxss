@@ -1,0 +1,33 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32rpx;
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+}
+
+.filter {
+  background-color: #ffffff;
+  padding: 12rpx 24rpx;
+  border-radius: var(--border-radius);
+}
+
+.picker {
+  font-size: var(--font-size-base);
+  color: var(--primary-color);
+}
+
+.project-list {
+  margin-bottom: 32rpx;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 64rpx 0;
+  color: #999999;
+  font-size: var(--font-size-base);
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "项目更新",
+  "usingComponents": {
+    "project-card": "../project-card/index"
+  }
+}

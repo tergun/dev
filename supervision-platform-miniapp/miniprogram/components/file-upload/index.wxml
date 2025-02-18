@@ -1,0 +1,27 @@
+<view class="file-upload">
+  <view class="upload-area" bindtap="chooseFile">
+    <view class="upload-icon">
+      <image src="/assets/icons/upload.png" mode="aspectFit"></image>
+    </view>
+    <view class="upload-text">点击上传文件</view>
+    <view class="upload-desc">支持 Word、Excel、PDF 格式</view>
+  </view>
+  
+  <view class="file-list" wx:if="{{files.length > 0}}">
+    <view class="file-list-title">已选择的文件：</view>
+    <view class="file-item" wx:for="{{files}}" wx:key="index">
+      <view class="file-icon">
+        <image src="/assets/icons/file.png" mode="aspectFit"></image>
+      </view>
+      <view class="file-info">
+        <view class="file-name">{{item.name}}</view>
+        <view class="file-size">{{item.size}}KB</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="button-group" wx:if="{{files.length > 0}}">
+    <button class="button button-outline" bindtap="clearFiles">清空</button>
+    <button class="button" bindtap="uploadFiles">上传文件</button>
+  </view>
+</view>

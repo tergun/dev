@@ -1,0 +1,36 @@
+<view class="responsibility-confirm">
+  <view class="radio-group">
+    <view class="radio-item {{isResponsible === 'all' ? 'selected' : ''}}" bindtap="selectResponsibility" data-value="all">
+      <text>全部内容在职责范围内</text>
+      <view class="radio {{isResponsible === 'all' ? 'checked' : ''}}"></view>
+    </view>
+    <view class="radio-item {{isResponsible === 'partial' ? 'selected' : ''}}" bindtap="selectResponsibility" data-value="partial">
+      <text>部分内容在职责范围内</text>
+      <view class="radio {{isResponsible === 'partial' ? 'checked' : ''}}"></view>
+    </view>
+    <view class="radio-item {{isResponsible === 'none' ? 'selected' : ''}}" bindtap="selectResponsibility" data-value="none">
+      <text>不在职责范围内</text>
+      <view class="radio {{isResponsible === 'none' ? 'checked' : ''}}"></view>
+    </view>
+  </view>
+
+  <view class="reason-input" wx:if="{{isResponsible === 'none'}}">
+    <text class="label">请说明原因</text>
+    <textarea
+      class="textarea"
+      value="{{reason}}"
+      bindinput="onReasonInput"
+      placeholder="请输入原因说明..."
+    ></textarea>
+  </view>
+
+  <view class="button-group">
+    <button 
+      class="button" 
+      disabled="{{!isResponsible || (isResponsible === 'none' && !reason)}}"
+      bindtap="handleConfirm"
+    >
+      确认提交
+    </button>
+  </view>
+</view>

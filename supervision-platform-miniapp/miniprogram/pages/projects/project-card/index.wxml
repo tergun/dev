@@ -1,0 +1,33 @@
+<view class="project-card">
+  <view class="header">
+    <text class="title">{{project.name}}</text>
+    <text class="status {{project.status}}">{{statusText}}</text>
+  </view>
+  <view class="info">
+    <view class="info-item">
+      <text class="label">分管领导：</text>
+      <text class="value">{{project.supervisor}}</text>
+    </view>
+    <view class="info-item">
+      <text class="label">责任单位：</text>
+      <text class="value">{{project.responsibleUnit}}</text>
+    </view>
+    <view class="info-item">
+      <text class="label">开始日期：</text>
+      <text class="value">{{project.startDate}}</text>
+    </view>
+    <view class="info-item">
+      <text class="label">结束日期：</text>
+      <text class="value">{{project.endDate}}</text>
+    </view>
+  </view>
+  <view class="progress">
+    <view class="progress-bar">
+      <view class="progress-inner" style="width: {{project.visualPercentage}}%"></view>
+    </view>
+    <text class="progress-text">形象进度：{{project.visualPercentage}}%</text>
+  </view>
+  <view class="update-status" wx:if="{{project.needsUpdate}}">
+    <text class="warning">需要更新内容</text>
+  </view>
+</view>

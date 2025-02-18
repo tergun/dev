@@ -1,0 +1,26 @@
+<view class="container">
+  <view class="header">
+    <view class="title">重点项目</view>
+    <view class="filter">
+      <picker mode="selector" range="{{statusOptions}}" bindchange="onStatusChange">
+        <view class="picker">
+          状态：{{currentStatus || '全部'}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="project-list">
+    <project-card
+      wx:for="{{projects}}"
+      wx:key="id"
+      project="{{item}}"
+      bindtap="onProjectTap"
+      data-id="{{item.id}}"
+    />
+  </view>
+
+  <view class="empty-state" wx:if="{{projects.length === 0}}">
+    <text>暂无项目</text>
+  </view>
+</view>

@@ -1,0 +1,25 @@
+<view class="reply-upload">
+  <view class="upload-area" bindtap="chooseFile">
+    <view class="upload-icon">
+      <image src="/assets/icons/upload.png" mode="aspectFit"></image>
+    </view>
+    <view class="upload-text">点击上传答复文件</view>
+    <view class="upload-desc">需加盖公章的PDF或Word文件</view>
+  </view>
+
+  <block wx:if="{{file}}">
+    <view class="file-info">
+      <view class="file-icon">
+        <image src="/assets/icons/file.png" mode="aspectFit"></image>
+      </view>
+      <view class="file-details">
+        <text class="file-name">{{file.name}}</text>
+        <text class="file-size">{{file.size}}KB</text>
+      </view>
+    </view>
+    <view class="button-group">
+      <button class="button button-outline" bindtap="clearFile">取消</button>
+      <button class="button" bindtap="submitFile">提交答复</button>
+    </view>
+  </block>
+</view>

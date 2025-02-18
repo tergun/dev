@@ -1,0 +1,42 @@
+<view class="container">
+  <view class="card">
+    <view class="card-title">人大建议/政协提案</view>
+    <view class="step-indicator">
+      <view class="step {{currentStep >= 1 ? 'active' : ''}}">1</view>
+      <view class="step {{currentStep >= 2 ? 'active' : ''}}">2</view>
+      <view class="step {{currentStep >= 3 ? 'active' : ''}}">3</view>
+      <view class="step {{currentStep >= 4 ? 'active' : ''}}">4</view>
+      <view class="step {{currentStep >= 5 ? 'active' : ''}}">5</view>
+      <view class="step {{currentStep >= 6 ? 'active' : ''}}">6</view>
+    </view>
+    
+    <view class="step-content">
+      <block wx:if="{{currentStep === 1}}">
+        <file-upload
+          bind:filesSelected="onFilesSelected"
+          bind:upload="onUpload"
+        />
+      </block>
+      <block wx:if="{{currentStep === 2}}">
+        <department-select
+          bind:select="onDepartmentsSelected"
+        />
+      </block>
+      <block wx:if="{{currentStep === 3}}">
+        <responsibility-confirm
+          bind:confirm="onResponsibilityConfirm"
+        />
+      </block>
+      <block wx:if="{{currentStep === 4}}">
+        <photo-upload
+          bind:photosUploaded="onPhotosUploaded"
+        />
+      </block>
+      <block wx:if="{{currentStep === 5}}">
+        <reply-upload
+          bind:upload="onReplyUploaded"
+        />
+      </block>
+    </view>
+  </view>
+</view>

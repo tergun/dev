@@ -1,0 +1,49 @@
+<view class="container">
+  <view class="update-info">
+    <view class="header">
+      <text class="title">更新状态</text>
+      <text class="date">{{lastUpdateDate}}</text>
+    </view>
+    
+    <view class="form">
+      <view class="form-item">
+        <text class="label">项目进展</text>
+        <textarea 
+          class="textarea" 
+          value="{{content}}"
+          bindinput="onContentInput"
+          placeholder="请输入项目进展情况..."
+        ></textarea>
+      </view>
+      
+      <view class="form-item">
+        <text class="label">形象进度</text>
+        <slider 
+          value="{{visualPercentage}}" 
+          bindchange="onPercentageChange"
+          min="0"
+          max="100"
+          step="1"
+          show-value
+        />
+      </view>
+    </view>
+
+    <view class="button-group">
+      <button class="button" bindtap="submitUpdate">提交更新</button>
+    </view>
+  </view>
+
+  <view class="update-history">
+    <view class="section-title">更新历史</view>
+    <view class="history-list">
+      <view class="history-item" wx:for="{{updateHistory}}" wx:key="date">
+        <view class="history-header">
+          <text class="history-date">{{item.date}}</text>
+          <text class="history-percentage">形象进度：{{item.visualPercentage}}%</text>
+        </view>
+        <view class="history-content">{{item.content}}</view>
+      </view>
+    </view>
+  </view>
+</view>

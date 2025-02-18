@@ -1,0 +1,39 @@
+.department-select {
+  width: 100%;
+}
+
+.department-list {
+  margin-bottom: 32rpx;
+}
+
+.department-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx;
+  background-color: #ffffff;
+  border-radius: var(--border-radius);
+  margin-bottom: 16rpx;
+}
+
+.department-item.selected {
+  background-color: rgba(24, 144, 255, 0.1);
+}
+
+.checkbox {
+  width: 32rpx;
+  height: 32rpx;
+  border: 2rpx solid var(--border-color);
+  border-radius: 50%;
+}
+
+.checkbox.checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16rpx;
+}

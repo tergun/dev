@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "人大建议/政协提案",
+  "usingComponents": {
+    "file-upload": "/components/file-upload/index",
+    "department-select": "/components/department-select/index",
+    "responsibility-confirm": "/components/responsibility-confirm/index",
+    "photo-upload": "/components/photo-upload/index",
+    "reply-upload": "/components/reply-upload/index"
+  }
+}
