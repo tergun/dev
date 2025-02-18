@@ -8,6 +8,7 @@
 
 # production
 /dist
+/supervision-platform
 
 # misc
 .DS_Store
