@@ -1,0 +1,60 @@
+// Platform-specific styles
+.desktop-platform {
+  .desktop-only {
+    display: block;
+  }
+  
+  .mobile-only {
+    display: none;
+  }
+}
+
+.mobile-platform {
+  .desktop-only {
+    display: none;
+  }
+  
+  .mobile-only {
+    display: block;
+  }
+  
+  // Mobile-specific styles
+  .el-form-item {
+    margin-bottom: 12px;
+  }
+  
+  .el-button {
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  .el-table {
+    font-size: 14px;
+    
+    th {
+      padding: 8px 0;
+    }
+    
+    td {
+      padding: 8px;
+    }
+  }
+}
+
+// Responsive breakpoints
+@media screen and (max-width: 768px) {
+  .el-dialog {
+    width: 90% !important;
+    margin: 10px auto !important;
+  }
+  
+  .el-form-item__label {
+    float: none;
+    text-align: left;
+    margin-bottom: 5px;
+  }
+  
+  .el-form-item__content {
+    margin-left: 0 !important;
+  }
+}
