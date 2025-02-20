@@ -1,0 +1,17 @@
+{
+  "pages": [
+    {
+      "path": "pages/project-list/index",
+      "style": {
+        "navigationBarTitleText": "项目列表",
+        "enablePullDownRefresh": true
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "项目督办",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  }
+}
