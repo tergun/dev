@@ -30,13 +30,13 @@
         @tap="handleProjectClick(item)"
       >
         <view class="project-info">
-          <view class="project-header">
-            <image class="project-image" :src="item.image || '/static/default-project.png'" mode="aspectFill"></image>
+          <image class="project-image" :src="item.image || '/static/default-project.png'" mode="aspectFill"></image>
+          <view class="content">
             <view class="project-name">{{item.name}}</view>
-          </view>
-          <view class="project-investor">
-            <text class="label">投资主体：</text>
-            <text class="value">{{item.investor}}</text>
+            <view class="project-investor">
+              <text class="label">投资主体：</text>
+              <text class="value">{{item.investor}}</text>
+            </view>
           </view>
         </view>
         <text class="iconfont icon-arrow-right"></text>
@@ -182,36 +182,40 @@ onMounted(() => {
       
       .project-info {
         flex: 1;
+        display: flex;
+        align-items: center;
         
-        .project-header {
-          display: flex;
-          align-items: center;
-          margin-bottom: 16rpx;
+        .project-image {
+          width: 80rpx;
+          height: 80rpx;
+          border-radius: 8rpx;
+          margin-right: 20rpx;
+          flex-shrink: 0;
+        }
 
-          .project-image {
-            width: 80rpx;
-            height: 80rpx;
-            border-radius: 8rpx;
-            margin-right: 20rpx;
-          }
-
+        .content {
+          flex: 1;
+          
           .project-name {
             font-size: 32rpx;
             font-weight: 500;
             color: #333333;
-          }
-        }
-        
-        .project-investor {
-          font-size: 28rpx;
-          color: #666666;
-          
-          .label {
-            color: #999999;
+            margin-bottom: 8rpx;
+            line-height: 1.2;
           }
           
-          .value {
+          .project-investor {
+            font-size: 28rpx;
             color: #666666;
+            line-height: 1.2;
+            
+            .label {
+              color: #999999;
+            }
+            
+            .value {
+              color: #666666;
+            }
           }
         }
       }
