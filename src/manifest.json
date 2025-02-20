@@ -1,0 +1,15 @@
+{
+  "name": "项目督办",
+  "appid": "",
+  "description": "重点项目督办情况管理平台",
+  "versionName": "1.0.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "h5": {
+    "title": "项目督办",
+    "router": {
+      "mode": "hash",
+      "base": "/"
+    }
+  }
+}
