@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-import UniApprovalStatus from '@/components/uni-approval-status/index.vue'
+import UniApprovalStatus from "@/components/uni-approval-status/index.vue";
 </script>

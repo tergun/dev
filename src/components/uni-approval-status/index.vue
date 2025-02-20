@@ -205,8 +205,8 @@ const isRecentlyUpdated = (date) => {
 const viewDetails = (_item, _type) => {
   if (!restrictToDesktop()) return;
   uni.showToast({
-    title: '请在电脑端查看详细信息',
-    icon: 'none'
+    title: "请在电脑端查看详细信息",
+    icon: "none",
   });
 };
 
@@ -214,8 +214,8 @@ const viewDetails = (_item, _type) => {
 const uploadFile = (_item) => {
   if (!restrictToDesktop()) return;
   uni.showToast({
-    title: '请在电脑端上传文件',
-    icon: 'none'
+    title: "请在电脑端上传文件",
+    icon: "none",
   });
 };
 
@@ -223,8 +223,8 @@ const uploadFile = (_item) => {
 const uploadNote = (_item) => {
   if (!restrictToDesktop()) return;
   uni.showToast({
-    title: '请在电脑端上传说明材料',
-    icon: 'none'
+    title: "请在电脑端上传说明材料",
+    icon: "none",
   });
 };
 </script>
