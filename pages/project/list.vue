@@ -6,7 +6,8 @@
         <text class="iconfont icon-search"></text>
         <input 
           type="text" 
-          v-model="searchKey" 
+          v-model="searchKey"
+          @input="handleSearch"
           placeholder="搜索项目" 
           placeholder-class="placeholder"
         />
@@ -45,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const searchKey = ref('')
 const projectList = ref([
@@ -76,28 +77,43 @@ const projectList = ref([
 ])
 const loading = ref(false)
 
-// 获取项目列表
-const fetchProjects = async () => {
+// 搜索处理
+const handleSearch = () => {
   loading.value = true
-  try {
-    // 这里替换为实际的API调用
-    const response = await uni.request({
-      url: '/api/projects',
-      method: 'GET',
-      data: {
-        keyword: searchKey.value
+  setTimeout(() => {
+    // 模拟搜索，实际项目中替换为API调用
+    const keyword = searchKey.value.toLowerCase()
+    projectList.value = [
+      {
+        id: 1,
+        name: '智慧城市建设项目',
+        investor: '城市发展投资有限公司',
+        image: '/static/projects/smart-city.png'
+      },
+      {
+        id: 2,
+        name: '绿色能源产业园',
+        investor: '新能源科技集团',
+        image: '/static/projects/green-energy.png'
+      },
+      {
+        id: 3,
+        name: '智能制造产业基地',
+        investor: '工业发展有限公司',
+        image: '/static/projects/smart-manufacturing.png'
+      },
+      {
+        id: 4,
+        name: '文化创意产业园',
+        investor: '文化传媒投资集团',
+        image: '/static/projects/cultural-creative.png'
       }
-    })
-    projectList.value = response.data || []
-  } catch (error) {
-    console.error('获取项目列表失败：', error)
-    uni.showToast({
-      title: '获取项目列表失败',
-      icon: 'none'
-    })
-  } finally {
+    ].filter(item => 
+      item.name.toLowerCase().includes(keyword) || 
+      item.investor.toLowerCase().includes(keyword)
+    )
     loading.value = false
-  }
+  }, 300)
 }
 
 // 查看项目详情
