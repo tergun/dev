@@ -5,7 +5,8 @@ import { resolve } from 'path'
 export default defineConfig({
   plugins: [uni()],
   server: {
-    port: 3000
+    port: 3000,
+    host: true
   },
   resolve: {
     alias: {
@@ -14,6 +15,13 @@ export default defineConfig({
   },
   build: {
     target: 'es2015',
-    cssTarget: 'chrome80'
+    cssTarget: 'chrome80',
+    minify: 'terser',
+    sourcemap: false,
+    rollupOptions: {
+      input: {
+        app: resolve(__dirname, 'index.html')
+      }
+    }
   }
 })
