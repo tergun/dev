@@ -11,6 +11,12 @@
       "style": {
         "navigationBarTitleText": "项目列表"
       }
+    },
+    {
+      "path": "pages/project/detail",
+      "style": {
+        "navigationBarTitleText": "项目详情"
+      }
     }
   ],
   "globalStyle": {
