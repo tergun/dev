@@ -190,7 +190,7 @@ onMounted(() => {
           
           .project-header {
             display: flex;
-            align-items: center;
+            align-items: baseline;
             margin-bottom: 8rpx;
             
             .project-name {
@@ -198,6 +198,7 @@ onMounted(() => {
               font-weight: 500;
               color: #333333;
               margin-right: 10rpx;
+              line-height: 1.2;
             }
           }
           
