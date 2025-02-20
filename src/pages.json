@@ -6,6 +6,13 @@
         "navigationBarTitleText": "项目列表",
         "enablePullDownRefresh": true
       }
+    },
+    {
+      "path": "pages/approval-status/index",
+      "style": {
+        "navigationBarTitleText": "前期手续办理情况",
+        "enablePullDownRefresh": true
+      }
     }
   ],
   "globalStyle": {
