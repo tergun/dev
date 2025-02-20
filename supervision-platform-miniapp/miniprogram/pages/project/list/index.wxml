@@ -1,0 +1,44 @@
+<view class="project-container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input">
+      <text class="iconfont icon-search"></text>
+      <input 
+        type="text" 
+        model:value="{{searchKey}}" 
+        placeholder="搜索项目" 
+        placeholder-class="placeholder"
+      />
+    </view>
+  </view>
+  
+  <!-- 项目列表 -->
+  <view class="project-list">
+    <block wx:if="{{loading}}">
+      <view class="loading">加载中...</view>
+    </block>
+    <block wx:elif="{{projectList.length === 0}}">
+      <view class="empty">暂无项目</view>
+    </block>
+    <view 
+      class="project-item" 
+      wx:else
+      wx:for="{{projectList}}" 
+      wx:key="id"
+      bindtap="handleProjectClick"
+      data-project="{{item}}"
+    >
+      <view class="project-info">
+        <view class="project-header">
+          <image class="project-image" src="{{item.image || '/static/default-project.png'}}" mode="aspectFill"></image>
+          <view class="project-name">{{item.name}}</view>
+        </view>
+        <view class="project-investor">
+          <text class="label">投资主体：</text>
+          <text class="value">{{item.investor}}</text>
+        </view>
+      </view>
+      <text class="iconfont icon-arrow-right"></text>
+    </view>
+  </view>
+</view>
