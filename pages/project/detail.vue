@@ -2,6 +2,7 @@
   <view class="detail-container">
     <!-- 基本信息卡片 -->
     <view class="info-card">
+      <image class="project-image" :src="projectInfo.image || '/static/default-project.png'" mode="aspectFill"></image>
       <view class="card-title">基本信息</view>
       <view class="info-list">
         <view class="info-item">
@@ -77,6 +78,7 @@ const projectInfo = ref({
   level: '市级重点项目',
   name: '智慧城市建设项目',
   investor: '城市发展投资有限公司',
+  image: '/static/projects/smart-city.png',
   nature: '新建',
   totalInvestment: '50000',
   plannedInvestment2025: '20000',
@@ -131,6 +133,14 @@ onMounted(() => {
   padding: 30rpx;
   margin-bottom: 20rpx;
   box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+
+  .project-image {
+    width: 100%;
+    height: 320rpx;
+    border-radius: 8rpx;
+    margin-bottom: 30rpx;
+    background-color: #F5F7FA;
+  }
 
   .card-title {
     font-size: 32rpx;
