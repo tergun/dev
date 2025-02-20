@@ -1,7 +1,9 @@
 <template>
   <view class="app">
     <view class="content">
-      <router-view></router-view>
+      <page-meta>
+        <navigation-bar title="项目督办" />
+      </page-meta>
     </view>
   </view>
 </template>
@@ -11,8 +13,11 @@
 </script>
 
 <style lang="scss">
+page {
+  background-color: #f5f7fa;
+}
+
 .app {
   min-height: 100vh;
-  background-color: #f5f7fa;
 }
 </style>

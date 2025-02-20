@@ -22,15 +22,21 @@
           </view>
           <view class="info-item">
             <text class="label">总投资：</text>
-            <text class="value">{{ formatInvestment(project.totalInvestment) }}万</text>
+            <text class="value"
+              >{{ formatInvestment(project.totalInvestment) }}万</text
+            >
           </view>
           <view class="info-item">
             <text class="label">2025年计划完成投资：</text>
-            <text class="value">{{ formatInvestment(project.plannedInvestment2025) }}万</text>
+            <text class="value"
+              >{{ formatInvestment(project.plannedInvestment2025) }}万</text
+            >
           </view>
           <view class="info-item">
             <text class="label">计划开复工时间：</text>
-            <text class="value">{{ formatDate(project.plannedStartDate) }}</text>
+            <text class="value">{{
+              formatDate(project.plannedStartDate)
+            }}</text>
           </view>
           <view class="info-item">
             <text class="label">计划完工时间：</text>
@@ -51,10 +57,10 @@
       <uni-section title="项目进展" type="line">
         <view class="progress-section">
           <view class="progress-bar">
-            <progress 
-              :percent="project.progress" 
-              active 
-              stroke-width="3" 
+            <progress
+              :percent="project.progress"
+              active
+              stroke-width="3"
               activeColor="#409EFF"
             />
             <text class="progress-text">{{ project.progress }}%</text>
@@ -63,7 +69,7 @@
             <text>{{ project.progressDescription }}</text>
           </view>
           <view class="last-update" v-if="isRecentlyUpdated(project.updatedAt)">
-            <uni-icons type="info" size="14" color="#409EFF"/>
+            <uni-icons type="info" size="14" color="#409EFF" />
             <text class="update-text">7天内更新</text>
           </view>
         </view>
@@ -73,42 +79,42 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import MobileContainer from '@/components/base/MobileContainer.vue'
+import { ref, onMounted } from "vue";
+import MobileContainer from "@/components/base/MobileContainer.vue";
 
 const project = ref({
-  level: '市级',
-  name: '城市基础设施改造项目',
-  investor: '市政府',
-  nature: '改造',
+  level: "市级",
+  name: "城市基础设施改造项目",
+  investor: "市政府",
+  nature: "改造",
   totalInvestment: 50000,
   plannedInvestment2025: 20000,
-  plannedStartDate: '2025-03-01',
-  plannedEndDate: '2025-12-31',
-  supervisor: '张三',
-  responsibleUnit: '市建设局',
+  plannedStartDate: "2025-03-01",
+  plannedEndDate: "2025-12-31",
+  supervisor: "张三",
+  responsibleUnit: "市建设局",
   progress: 15,
-  progressDescription: '项目前期准备工作进行中，环评报告已完成初稿。',
-  updatedAt: new Date()
-})
+  progressDescription: "项目前期准备工作进行中，环评报告已完成初稿。",
+  updatedAt: new Date(),
+});
 
 const formatInvestment = (value) => {
-  return value?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') || '0'
-}
+  return value?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") || "0";
+};
 
 const formatDate = (date) => {
-  return date ? new Date(date).toLocaleDateString('zh-CN') : '--'
-}
+  return date ? new Date(date).toLocaleDateString("zh-CN") : "--";
+};
 
 const isRecentlyUpdated = (date) => {
-  if (!date) return false
-  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-  return new Date(date) > sevenDaysAgo
-}
+  if (!date) return false;
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  return new Date(date) > sevenDaysAgo;
+};
 
 onMounted(async () => {
   // TODO: Fetch project details from API
-})
+});
 </script>
 
 <style lang="scss">
@@ -125,7 +131,7 @@ onMounted(async () => {
     .info-item {
       display: flex;
       margin-bottom: 12px;
-      
+
       &:last-child {
         margin-bottom: 0;
       }
@@ -153,7 +159,7 @@ onMounted(async () => {
       display: flex;
       align-items: center;
       margin-bottom: 12px;
-      
+
       progress {
         flex: 1;
         margin-right: 10px;
@@ -161,7 +167,7 @@ onMounted(async () => {
 
       .progress-text {
         font-size: 14px;
-        color: #409EFF;
+        color: #409eff;
         min-width: 40px;
       }
     }
@@ -176,11 +182,11 @@ onMounted(async () => {
     .last-update {
       display: flex;
       align-items: center;
-      
+
       .update-text {
         margin-left: 4px;
         font-size: 12px;
-        color: #409EFF;
+        color: #409eff;
       }
     }
   }

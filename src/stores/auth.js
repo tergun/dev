@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { isMobileDevice, isDesktopDevice } from "@/utils/platform";
+import { isDesktopDevice } from "@/utils/platform";
 
 export const useAuthStore = defineStore("auth", () => {
   const user = ref(null);
