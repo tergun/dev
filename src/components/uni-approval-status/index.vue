@@ -99,10 +99,7 @@
             <text :class="['status-tag', getStatusClass(item.status)]">
               {{ getStatusText(item.status) }}
             </text>
-            <text
-              class="update-time"
-              v-if="isRecentlyUpdated(item.updatedAt)"
-            >
+            <text class="update-time" v-if="isRecentlyUpdated(item.updatedAt)">
               最近7天内更新
             </text>
           </view>
@@ -124,7 +121,7 @@ const deadlineOptions = [
   { value: "1month", text: "1个月" },
   { value: "3months", text: "3个月" },
   { value: "6months", text: "6个月" },
-  { value: "1year", text: "1年" }
+  { value: "1year", text: "1年" },
 ];
 
 // 办理层级选项
@@ -132,7 +129,7 @@ const levelOptions = [
   { value: "banner", text: "旗级" },
   { value: "city", text: "市级" },
   { value: "region", text: "自治区级" },
-  { value: "national", text: "国家级" }
+  { value: "national", text: "国家级" },
 ];
 
 // 审批项目列表
@@ -142,20 +139,20 @@ const approvalItems = ref([
     status: "no",
     deadline: "3months",
     level: "city",
-    updatedAt: new Date()
+    updatedAt: new Date(),
   },
   {
     title: "建设用地规划许可证",
     status: "yes",
     files: [{ name: "许可证.pdf", url: "#" }],
-    updatedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000)
+    updatedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
   },
   {
     title: "临时用地许可",
     status: "unnecessary",
     note: "项目用地为永久性建设用地，无需办理临时用地许可",
-    updatedAt: new Date()
-  }
+    updatedAt: new Date(),
+  },
 ]);
 
 // 获取状态图标
@@ -163,7 +160,7 @@ const getStatusIcon = (status) => {
   const icons = {
     yes: "checkbox-filled",
     no: "closeempty",
-    unnecessary: "info-filled"
+    unnecessary: "info-filled",
   };
   return icons[status] || "help";
 };
@@ -173,7 +170,7 @@ const getStatusColor = (status) => {
   const colors = {
     yes: "#67c23a",
     no: "#f56c6c",
-    unnecessary: "#909399"
+    unnecessary: "#909399",
   };
   return colors[status] || "#909399";
 };
@@ -183,7 +180,7 @@ const getStatusClass = (status) => {
   const classes = {
     yes: "status-yes",
     no: "status-no",
-    unnecessary: "status-unnecessary"
+    unnecessary: "status-unnecessary",
   };
   return classes[status] || "";
 };
@@ -193,7 +190,7 @@ const getStatusText = (status) => {
   const texts = {
     yes: "已完成",
     no: "未完成",
-    unnecessary: "无需办理"
+    unnecessary: "无需办理",
   };
   return texts[status] || status;
 };
@@ -205,21 +202,30 @@ const isRecentlyUpdated = (date) => {
 };
 
 // 查看详情（仅限桌面端）
-const viewDetails = (item, type) => {
+const viewDetails = (_item, _type) => {
   if (!restrictToDesktop()) return;
-  // 实现查看详情逻辑
+  uni.showToast({
+    title: '请在电脑端查看详细信息',
+    icon: 'none'
+  });
 };
 
 // 上传文件（仅限桌面端）
-const uploadFile = (item) => {
+const uploadFile = (_item) => {
   if (!restrictToDesktop()) return;
-  // 实现文件上传逻辑
+  uni.showToast({
+    title: '请在电脑端上传文件',
+    icon: 'none'
+  });
 };
 
 // 上传说明材料（仅限桌面端）
-const uploadNote = (item) => {
+const uploadNote = (_item) => {
   if (!restrictToDesktop()) return;
-  // 实现说明材料上传逻辑
+  uni.showToast({
+    title: '请在电脑端上传说明材料',
+    icon: 'none'
+  });
 };
 </script>
 
