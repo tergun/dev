@@ -4,6 +4,11 @@ module.exports = {
     node: true,
     'vue/setup-compiler-macros': true
   },
+  globals: {
+    uni: true,
+    getCurrentPages: true,
+    getApp: true
+  },
   extends: [
     'plugin:vue/vue3-essential',
     'eslint:recommended',
