@@ -11,23 +11,23 @@ export const isDesktopDevice = () => {
 
 // Feature restriction utilities
 export const restrictToDesktop = () => {
-  const isDesktop = isDesktopDevice()
+  const isDesktop = isDesktopDevice();
   if (!isDesktop) {
     uni.showToast({
       title: "此功能仅支持在电脑端使用",
-      icon: "none"
-    })
+      icon: "none",
+    });
   }
-  return isDesktop
-}
+  return isDesktop;
+};
 
 export const restrictToMobile = () => {
-  const isMobile = isMobileDevice()
+  const isMobile = isMobileDevice();
   if (!isMobile) {
     uni.showToast({
       title: "请使用移动设备访问",
-      icon: "none"
-    })
+      icon: "none",
+    });
   }
-  return isMobile
-}
+  return isMobile;
+};
