@@ -1,35 +1,35 @@
-import { computed } from 'vue'
-import { isMobileDevice, isDesktopDevice } from '@/utils/platform'
+import { computed } from "vue";
+import { isMobileDevice, isDesktopDevice } from "@/utils/platform";
 
 export const usePlatformRestrictions = () => {
-  const isDesktop = computed(() => isDesktopDevice())
-  const isMobile = computed(() => isMobileDevice())
+  const isDesktop = computed(() => isDesktopDevice());
+  const isMobile = computed(() => isMobileDevice());
 
-  const restrictToDesktop = (action) => {
+  const restrictToDesktop = () => {
     if (!isDesktop.value) {
       uni.showToast({
-        title: '此功能仅支持在电脑端使用',
-        icon: 'none'
-      })
-      return false
+        title: "此功能仅支持在电脑端使用",
+        icon: "none",
+      });
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
-  const restrictToMobile = (action) => {
+  const restrictToMobile = () => {
     if (!isMobile.value) {
       uni.showToast({
-        title: '请使用移动设备访问',
-        icon: 'none'
-      })
-      return false
+        title: "请使用移动设备访问",
+        icon: "none",
+      });
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
-  const canUpload = computed(() => isDesktop.value)
-  const canDownload = computed(() => isDesktop.value)
-  const canModify = computed(() => isDesktop.value)
+  const canUpload = computed(() => isDesktop.value);
+  const canDownload = computed(() => isDesktop.value);
+  const canModify = computed(() => isDesktop.value);
 
   return {
     isDesktop,
@@ -38,6 +38,6 @@ export const usePlatformRestrictions = () => {
     restrictToMobile,
     canUpload,
     canDownload,
-    canModify
-  }
-}
+    canModify,
+  };
+};

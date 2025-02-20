@@ -6,14 +6,18 @@
         <uni-list-item v-for="(item, index) in approvalItems" :key="index">
           <template #header>
             <view class="approval-icon">
-              <uni-icons :type="getStatusIcon(item.status)" size="24" :color="getStatusColor(item.status)"/>
+              <uni-icons
+                :type="getStatusIcon(item.status)"
+                size="24"
+                :color="getStatusColor(item.status)"
+              />
             </view>
           </template>
-          
+
           <template #body>
             <view class="approval-info">
               <text class="approval-title">{{ item.title }}</text>
-              
+
               <!-- 状态为"否"时显示的内容 -->
               <template v-if="item.status === 'no'">
                 <view class="approval-details">
@@ -34,25 +38,39 @@
                     />
                   </view>
                   <view class="detail-buttons">
-                    <button class="detail-btn" @click="viewDetails(item, 'filing')">组卷情况</button>
-                    <button class="detail-btn" @click="viewDetails(item, 'approval')">审批情况</button>
+                    <button
+                      class="detail-btn"
+                      @click="viewDetails(item, 'filing')"
+                    >
+                      组卷情况
+                    </button>
+                    <button
+                      class="detail-btn"
+                      @click="viewDetails(item, 'approval')"
+                    >
+                      审批情况
+                    </button>
                   </view>
                 </view>
               </template>
-              
+
               <!-- 状态为"是"时显示的内容 -->
               <template v-if="item.status === 'yes'">
                 <view class="approval-files">
                   <text class="file-label">审批文件：</text>
                   <view class="file-list">
-                    <view v-for="(file, fileIndex) in item.files" :key="fileIndex" class="file-item">
-                      <uni-icons type="file" size="20"/>
+                    <view
+                      v-for="(file, fileIndex) in item.files"
+                      :key="fileIndex"
+                      class="file-item"
+                    >
+                      <uni-icons type="file" size="20" />
                       <text class="file-name">{{ file.name }}</text>
                     </view>
                   </view>
                 </view>
               </template>
-              
+
               <!-- 状态为"无需办理"时显示的内容 -->
               <template v-if="item.status === 'unnecessary'">
                 <view class="approval-note">
@@ -68,7 +86,10 @@
               <text :class="['status-tag', getStatusClass(item.status)]">
                 {{ getStatusText(item.status) }}
               </text>
-              <text class="update-time" v-if="isRecentlyUpdated(item.updatedAt)">
+              <text
+                class="update-time"
+                v-if="isRecentlyUpdated(item.updatedAt)"
+              >
                 最近7天内更新
               </text>
             </view>
@@ -80,94 +101,92 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import MobileContainer from '../base/MobileContainer.vue'
+import { ref } from "vue";
+import MobileContainer from "../base/MobileContainer.vue";
 
 const deadlineOptions = [
-  { value: '1month', text: '1个月' },
-  { value: '3months', text: '3个月' },
-  { value: '6months', text: '6个月' },
-  { value: '1year', text: '1年' }
-]
+  { value: "1month", text: "1个月" },
+  { value: "3months", text: "3个月" },
+  { value: "6months", text: "6个月" },
+  { value: "1year", text: "1年" },
+];
 
 const levelOptions = [
-  { value: 'banner', text: '旗级' },
-  { value: 'city', text: '市级' },
-  { value: 'region', text: '自治区级' },
-  { value: 'national', text: '国家级' }
-]
+  { value: "banner", text: "旗级" },
+  { value: "city", text: "市级" },
+  { value: "region", text: "自治区级" },
+  { value: "national", text: "国家级" },
+];
 
 const approvalItems = ref([
   {
-    title: '环境影响评估',
-    status: 'no',
-    deadline: '3months',
-    level: 'city',
-    updatedAt: new Date()
+    title: "环境影响评估",
+    status: "no",
+    deadline: "3months",
+    level: "city",
+    updatedAt: new Date(),
   },
   {
-    title: '建设用地规划许可证',
-    status: 'yes',
-    files: [
-      { name: '许可证.pdf', url: '#' }
-    ],
-    updatedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000)
+    title: "建设用地规划许可证",
+    status: "yes",
+    files: [{ name: "许可证.pdf", url: "#" }],
+    updatedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
   },
   {
-    title: '临时用地许可',
-    status: 'unnecessary',
-    note: '项目用地为永久性建设用地，无需办理临时用地许可',
-    updatedAt: new Date()
-  }
-])
+    title: "临时用地许可",
+    status: "unnecessary",
+    note: "项目用地为永久性建设用地，无需办理临时用地许可",
+    updatedAt: new Date(),
+  },
+]);
 
 const getStatusIcon = (status) => {
   const icons = {
-    yes: 'checkbox-filled',
-    no: 'closeempty',
-    unnecessary: 'info-filled'
-  }
-  return icons[status] || 'help'
-}
+    yes: "checkbox-filled",
+    no: "closeempty",
+    unnecessary: "info-filled",
+  };
+  return icons[status] || "help";
+};
 
 const getStatusColor = (status) => {
   const colors = {
-    yes: '#67c23a',
-    no: '#f56c6c',
-    unnecessary: '#909399'
-  }
-  return colors[status] || '#909399'
-}
+    yes: "#67c23a",
+    no: "#f56c6c",
+    unnecessary: "#909399",
+  };
+  return colors[status] || "#909399";
+};
 
 const getStatusClass = (status) => {
   const classes = {
-    yes: 'status-yes',
-    no: 'status-no',
-    unnecessary: 'status-unnecessary'
-  }
-  return classes[status] || ''
-}
+    yes: "status-yes",
+    no: "status-no",
+    unnecessary: "status-unnecessary",
+  };
+  return classes[status] || "";
+};
 
 const getStatusText = (status) => {
   const texts = {
-    yes: '已完成',
-    no: '未完成',
-    unnecessary: '无需办理'
-  }
-  return texts[status] || status
-}
+    yes: "已完成",
+    no: "未完成",
+    unnecessary: "无需办理",
+  };
+  return texts[status] || status;
+};
 
 const isRecentlyUpdated = (date) => {
-  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-  return new Date(date) > sevenDaysAgo
-}
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  return new Date(date) > sevenDaysAgo;
+};
 
-const viewDetails = (item, type) => {
+const viewDetails = () => {
   uni.showToast({
-    title: '请在电脑端查看详细信息',
-    icon: 'none'
-  })
-}
+    title: "请在电脑端查看详细信息",
+    icon: "none",
+  });
+};
 </script>
 
 <style lang="scss">
@@ -237,7 +256,7 @@ const viewDetails = (item, type) => {
           .file-name {
             margin-left: 8px;
             font-size: 14px;
-            color: #409EFF;
+            color: #409eff;
           }
         }
       }
@@ -287,7 +306,7 @@ const viewDetails = (item, type) => {
 
     .update-time {
       font-size: 12px;
-      color: #409EFF;
+      color: #409eff;
     }
   }
 
