@@ -6,19 +6,23 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint --ext .js,.vue src"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "@dcloudio/uni-app": "^3.0.0-alpha-4050220250208001",
     "@dcloudio/uni-ui": "^1.4.28",
-    "vue": "^3.2.45",
-    "pinia": "^2.0.28"
+    "pinia": "^2.0.28",
+    "vue": "^3.2.45"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.0.0",
     "@dcloudio/vite-plugin-uni": "^3.0.0-alpha-4050220250208001",
-    "eslint": "^8.22.0",
-    "eslint-plugin-vue": "^9.3.0",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "@vue/eslint-config-standard": "^9.0.0",
+    "eslint": "^9.20.1",
+    "eslint-plugin-vue": "^9.32.0",
+    "postcss": "^8.1.0",
+    "prettier": "^3.0.0",
     "sass": "^1.57.1",
     "vite": "^4.0.0"
   }
