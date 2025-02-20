@@ -28,22 +28,27 @@
         v-for="item in projectList" 
         :key="item.id"
         @tap="handleProjectClick(item)"
+        :data-progress="item.progress"
       >
+        <view class="progress-overlay" :style="{ width: item.progress + '%' }">
+          <text class="progress-percentage">{{item.progress}}%</text>
+        </view>
         <view class="project-info">
           <image class="project-image" :src="item.image || '/static/default-project.png'" mode="aspectFill"></image>
           <view class="content">
             <view class="project-header">
               <text class="project-name">{{item.name}}</text>
-              <text v-if="isRecentlyUpdated(item.updatedAt)" class="update-badge">近期更新</text>
             </view>
             <view class="project-investor">
               <text class="label">投资主体：</text>
               <text class="value">{{item.investor}}</text>
-              <text v-if="isRecentlyUpdated(item.investorUpdatedAt)" class="update-badge small">近期更新</text>
             </view>
           </view>
         </view>
-        <text class="iconfont icon-arrow-right"></text>
+        <view class="update-status">
+          <text v-if="isRecentlyUpdated(item.updatedAt)" class="update-badge">近期更新</text>
+          <text v-if="isRecentlyUpdated(item.investorUpdatedAt)" class="update-badge small">近期更新</text>
+        </view>
       </view>
     </view>
   </view>
@@ -60,7 +65,8 @@ const projectList = ref([
     investor: '城市发展投资有限公司',
     image: '/static/projects/smart-city.png',
     updatedAt: new Date(), // 最近更新
-    investorUpdatedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000) // 10天前更新
+    investorUpdatedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10天前更新
+    progress: 75 // 项目进度
   },
   {
     id: 2,
@@ -76,7 +82,8 @@ const projectList = ref([
     investor: '工业发展有限公司',
     image: '/static/projects/smart-manufacturing.png',
     updatedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000), // 8天前更新
-    investorUpdatedAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000) // 15天前更新
+    investorUpdatedAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), // 15天前更新
+    progress: 30 // 项目进度
   },
   {
     id: 4,
@@ -84,7 +91,8 @@ const projectList = ref([
     investor: '文化传媒投资集团',
     image: '/static/projects/cultural-creative.png',
     updatedAt: new Date(), // 最近更新
-    investorUpdatedAt: new Date() // 最近更新
+    investorUpdatedAt: new Date(), // 最近更新
+    progress: 90 // 项目进度
   }
 ])
 const loading = ref(false)
@@ -176,6 +184,23 @@ onMounted(() => {
         flex: 1;
         display: flex;
         align-items: center;
+        position: relative;
+        z-index: 2;
+
+        .progress-text {
+          position: absolute;
+          right: 20rpx;
+          top: 20rpx;
+          font-size: 24rpx;
+          color: #409EFF;
+          font-weight: 600;
+          background: rgba(255, 255, 255, 0.98);
+          padding: 6rpx 16rpx;
+          border-radius: 24rpx;
+          box-shadow: 0 4rpx 12rpx rgba(64, 158, 255, 0.15);
+        }
+
+        margin-right: 20rpx;
         
         .project-image {
           width: 100rpx;
@@ -221,9 +246,31 @@ onMounted(() => {
         }
       }
       
-      .iconfont {
-        font-size: 32rpx;
-        color: #999999;
+      .update-status {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8rpx;
+        position: relative;
+        z-index: 2;
+      }
+
+      .progress-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background: linear-gradient(90deg, 
+          rgba(64, 158, 255, 0.5) 0%,
+          rgba(64, 158, 255, 0.4) 20%,
+          rgba(64, 158, 255, 0.3) 40%,
+          rgba(64, 158, 255, 0.2) 60%,
+          rgba(64, 158, 255, 0.1) 80%,
+          rgba(64, 158, 255, 0.05) 100%
+        );
+        z-index: 1;
+        transition: width 0.3s ease;
+        border-radius: 0 16rpx 16rpx 0;
       }
     }
   }
