@@ -1,0 +1,34 @@
+{
+  "name": "project-supervision",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint \"src/**/*.{js,vue}\" --fix",
+    "type-check": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@dcloudio/uni-app": "3.0.0-alpha-4050220250208001",
+    "@dcloudio/uni-ui": "^1.5.7",
+    "pinia": "2.0.28",
+    "vue": "3.2.45"
+  },
+  "devDependencies": {
+    "@dcloudio/vite-plugin-uni": "3.0.0-alpha-4050220250208001",
+    "@types/node": "^22.13.4",
+    "@vitejs/plugin-vue": "4.0.0",
+    "@vue/eslint-config-prettier": "8.0.0",
+    "@vue/eslint-config-standard": "^9.0.0",
+    "@vue/tsconfig": "^0.7.0",
+    "eslint": "8.22.0",
+    "eslint-plugin-vue": "9.3.0",
+    "postcss": "^8.1.0",
+    "prettier": "3.0.0",
+    "sass": "1.57.1",
+    "typescript": "^5.7.3",
+    "vite": "4.0.0",
+    "vue-tsc": "^2.2.2"
+  }
+}
