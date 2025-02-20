@@ -23,6 +23,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/multi-word-component-names': 'off',
     'vue/no-deprecated-slot-attribute': 'off',
-    'vue/no-v-model-argument': 'off'
+    'vue/no-v-model-argument': 'off',
+    'no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }]
   }
 }
