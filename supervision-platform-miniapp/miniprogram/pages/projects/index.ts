@@ -16,36 +16,47 @@ Page({
   },
 
   loadProjects() {
-    // 模拟加载项目数据
-    const mockProjects = [
-      {
-        id: '1',
-        name: '城市道路改造工程',
-        status: PS.IN_PROGRESS,
-        supervisor: '张三',
-        responsibleUnit: '市政工程局',
-        startDate: '2025-01-01',
-        endDate: '2025-12-31',
-        visualPercentage: 45,
-        needsUpdate: true
+    this.setData({ loading: true });
+    wx.request({
+      url: 'http://df7vqc.natappfree.cc/jeecg-boot/xmgl/xmjzb/list/',
+      method: 'GET',
+      data: {
+        pageNo: 1,
+        pageSize: 10
       },
-      {
-        id: '2',
-        name: '公共文化中心建设',
-        status: PS.NOT_STARTED,
-        supervisor: '李四',
-        responsibleUnit: '文化旅游局',
-        startDate: '2025-03-01',
-        endDate: '2026-06-30',
-        visualPercentage: 0,
-        needsUpdate: false
+      success: (res: any) => {
+        if (res.data && res.data.result && res.data.result.records) {
+          const projects = res.data.result.records.map((item: any) => ({
+            id: item.id,
+            name: item.xmmc || '未命名项目', // 项目名称
+            status: this.getProjectStatus(item.xmjd || 0),
+            supervisor: item.tzzt || '未知投资主体', // 使用投资主体作为supervisor
+            responsibleUnit: item.tzzt || '未知投资主体', // 投资主体
+            startDate: item.startTime || '未设置',
+            endDate: item.endTime || '未设置',
+            visualPercentage: parseInt(item.xmjd || '0'), // 项目进度
+            needsUpdate: false
+          }));
+          this.setData({
+            projects,
+            loading: false
+          });
+        }
+      },
+      fail: () => {
+        wx.showToast({
+          title: '获取项目列表失败',
+          icon: 'none'
+        });
+        this.setData({ loading: false });
       }
-    ];
-
-    this.setData({
-      projects: mockProjects,
-      loading: false
     });
+  },
+
+  getProjectStatus(progress: number): string {
+    if (progress === 0) return PS.NOT_STARTED;
+    if (progress === 100) return PS.COMPLETED;
+    return PS.IN_PROGRESS;
   },
 
   onStatusChange(e: any) {
