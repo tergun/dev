@@ -78,8 +78,8 @@
             :maxHeight="300"
             :disabled="formDisabled"
             :rowNumber="true"
-            :rowSelection="true"
-            :actionButton="true"/>
+            :rowSelection="false"
+            :actionButton="false"/>
         </a-tab-pane>
       </a-tabs>
     </a-spin>
@@ -250,11 +250,26 @@
     created () {
     },
     methods: {
+      add() {
+        this.tableReset()
+        if (typeof this.addBefore === 'function') this.addBefore()
+        this.edit({})
+      },
+      edit(record) {
+        if (record && '{}'!=JSON.stringify(record) && record.id) {
+          this.tableReset()
+        }
+        this.visible = true
+        this.activeKey = this.refKeys[0]
+        this.$refs.form.resetFields()
+        this.model = Object.assign({}, record)
+        if (typeof this.editAfter === 'function') this.editAfter(this.model)
+      },
      addBefore(){
             // 添加12个默认的办理流程
             this.xmjzbListTable.dataSource=[
-              { blgc: '立项', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
-              { blgc: '建设工程文物保护和考古许可（预审意见或许可）', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
+              { blgc: '立项', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+              { blgc: '建设工程文物保护和考古许可（预审意见或许可）', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
               { blgc: '用地预审和规划选址意见书', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
               { blgc: '新增建设用地审批', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
               { blgc: '建设用地规划许可审批', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
