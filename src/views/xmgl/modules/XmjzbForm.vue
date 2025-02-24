@@ -253,18 +253,18 @@
      addBefore(){
             // 添加12个默认的办理流程
             this.xmjzbListTable.dataSource=[
-              { blgc: '立项' },
-              { blgc: '建设工程文物保护和考古许可（预审意见或许可）' },
-              { blgc: '用地预审和规划选址意见书' },
-              { blgc: '新增建设用地审批' },
-              { blgc: '建设用地规划许可审批' },
-              { blgc: '建设工程规划许可审批' },
-              { blgc: '节能审查' },
-              { blgc: '林地征占手续' },
-              { blgc: '草地征占手续' },
-              { blgc: '环境影响评价手续' },
-              { blgc: '取水许可手续' },
-              { blgc: '开工许可手续' }
+              { blgc: '立项', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
+              { blgc: '建设工程文物保护和考古许可（预审意见或许可）', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
+              { blgc: '用地预审和规划选址意见书', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
+              { blgc: '新增建设用地审批', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
+              { blgc: '建设用地规划许可审批', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
+              { blgc: '建设工程规划许可审批', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
+              { blgc: '节能审查', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
+              { blgc: '林地征占手续', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
+              { blgc: '草地征占手续', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
+              { blgc: '环境影响评价手续', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
+              { blgc: '取水许可手续', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' },
+              { blgc: '开工许可手续', xmzt: '', blqx: '', blcj: '', zjqk: '', spqk: '' }
             ]
       },
       getAllTable() {
