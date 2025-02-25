@@ -109,6 +109,15 @@
                 inputReadOnly: true,
                 disabled: function(record) {
                   return record.xmzt === '是' || record.xmzt === '无需办理'
+                },
+                disabledDate: function(current) {
+                  return true
+                },
+                style: function(record) {
+                  return record.xmzt === '是' || record.xmzt === '无需办理' ? { 
+                    backgroundColor: '#f5f5f5',
+                    cursor: 'not-allowed'
+                  } : {}
                 }
               }
             },
