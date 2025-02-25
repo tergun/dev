@@ -160,7 +160,7 @@
             {
               title: '审批情况',
               key: 'spqk',
-              type: FormTypes.file,
+              type: JVXETypes.file,
               token:true,
               responseName:"message",
               width:"200px",
