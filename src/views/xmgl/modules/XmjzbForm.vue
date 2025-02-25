@@ -31,6 +31,7 @@
           :rowSelection="false"
           :toolbar="false"
           :actionButton="false"
+          @edit-closed="handleEditClosed"
         />
       </a-tab-pane>
     </a-tabs>
@@ -203,6 +204,30 @@
           this.$refs.xmjzbList.refreshScroll()
         })
       },
+      handleEditClosed(event) {
+        let {$table, row, column} = event
+        let field = column.property
+        let cellValue = row[field]
+        
+        if(field === "xmzt") {
+          // 判断单元格值是否被修改
+          if ($table.isUpdateByRow(row, field)) {
+            // 校验当前行
+            $table.validate(row).then((errMap) => {
+              if(cellValue === "是" || cellValue === "无需办理") {
+                // Clear fields
+                row.blqx = ""
+                row.blcj = ""
+                row.zjqk = ""
+                
+                // Force refresh to update disabled states
+                this.$refs.xmjzbList.refreshRow(row)
+              }
+            })
+          }
+        }
+      },
+      
       handleChangeTabs(key) {
         getRefPromise(this, key).then(editableTable => {
           editableTable.resetScrollTop()
