@@ -1,39 +1,3 @@
-<template>
-  <a-spin :spinning="confirmLoading">
-    <j-form-container :disabled="formDisabled">
-      <a-form-model ref="form" :model="model" :rules="validatorRules" slot="detail">
-        <a-row>
-          <a-col :xs="24" :sm="12">
-            <a-form-model-item label="调度层级" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="ddcj">
-              <j-dict-select-tag type="radio" v-model="model.ddcj" dictCode="ddcj" placeholder="请选择调度层级" />
-            </a-form-model-item>
-          </a-col>
-          <a-col :xs="24" :sm="12">
-            <a-form-model-item label="项目名称" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="xmmc">
-              <a-input v-model="model.xmmc" placeholder="请输入项目名称" ></a-input>
-            </a-form-model-item>
-          </a-col>
-        </a-row>
-      </a-form-model>
-
-      <a-tabs v-model="activeKey" @change="handleChangeTabs">
-        <a-tab-pane tab="重点项目管理子表" :key="refKeys[0]" :forceRender="true">
-          <j-editable-table
-            ref="xmjzbList"
-            :loading="xmjzbListTable.loading"
-            :columns="xmjzbListTable.columns"
-            :dataSource="xmjzbListTable.dataSource"
-            :maxHeight="300"
-            :rowNumber="true"
-            :rowSelection="false"
-            :actionButton="false"
-          />
-        </a-tab-pane>
-      </a-tabs>
-    </j-form-container>
-  </a-spin>
-</template>
-
 <script>
   import { FormTypes,getRefPromise,VALIDATE_NO_PASSED } from '@/utils/JEditableTableUtil'
   import { JEditableTableModelMixin } from '@/mixins/JEditableTableModelMixin'
@@ -60,6 +24,16 @@
         validatorRules: {
           ddcj: [{ required: true, message: '请输入调度层级!'}],
           xmmc: [{ required: true, message: '请输入项目名称!'}],
+          tzzt: [{ required: true, message: '请输入投资主体!'}],
+          jsxz: [{ required: true, message: '请输入建设性质!'}],
+          ztz: [{ required: true, message: '请输入总投资!'}],
+          jhwc: [{ required: true, message: '请输入2025年计划完成投资!'}],
+          wcqk: [{ required: true, message: '请输入完成情况!'}],
+          fgsj: [{ required: true, message: '请输入计划开复工时间!'}],
+          wgsj: [{ required: true, message: '请输入计划完共时间!'}],
+          xmjzqk: [{ required: true, message: '请输入项目进展情况!'}],
+          fgld: [{ required: true, message: '请输入分管领导!'}],
+          fzdw: [{ required: true, message: '请输入负责单位!'}],
         },
         refKeys: ['xmjzbList'],
         activeKey: 'xmjzbList',
@@ -73,6 +47,7 @@
               type: FormTypes.input,
               width:"200px",
               placeholder: '请输入办理过程',
+              defaultValue:'',
             },
             {
               title: '项目状态',
@@ -81,11 +56,15 @@
               dictCode:"spzt",
               width:"200px",
               placeholder: '请选择项目状态',
+              defaultValue:'',
               onChange: function(event, record) {
                 if (event === '是') {
+                  // Clear fields when status is "是"
                   record.blqx = ''
                   record.blcj = ''
                   record.zjqk = ''
+                  // Force update to trigger re-render
+                  this.$forceUpdate()
                 }
               }
             },
@@ -95,6 +74,7 @@
               type: FormTypes.date,
               width:"200px",
               placeholder: '请选择办理期限',
+              defaultValue:'',
               disabled: function(record) {
                 return record.xmzt === '是'
               }
@@ -106,6 +86,7 @@
               dictCode:"ddcj",
               width:"200px",
               placeholder: '请选择办理层级',
+              defaultValue:'',
               disabled: function(record) {
                 return record.xmzt === '是'
               }
@@ -116,6 +97,7 @@
               type: FormTypes.textarea,
               width:"200px",
               placeholder: '请输入组卷情况',
+              defaultValue:'',
               disabled: function(record) {
                 return record.xmzt === '是'
               }
@@ -128,6 +110,7 @@
               responseName:"message",
               width:"200px",
               placeholder: '请选择文件',
+              defaultValue:'',
             }
           ]
         },
@@ -166,6 +149,3 @@
     }
   }
 </script>
-
-<style scoped>
-</style>
