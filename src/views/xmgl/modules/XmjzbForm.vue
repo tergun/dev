@@ -14,7 +14,6 @@
               <a-input v-model="model.xmmc" placeholder="请输入项目名称" ></a-input>
             </a-form-model-item>
           </a-col>
-          <!-- 其他主表单字段 -->
         </a-row>
       </a-form-model>
 
@@ -28,7 +27,7 @@
             :dataSource="xmjzbListTable.dataSource"
             :maxHeight="300"
             :rowNumber="true"
-            :rowSelection="true"
+            :rowSelection="false"
             :actionButton="false"
           />
         </a-tab-pane>
@@ -63,7 +62,6 @@
         validatorRules: {
           ddcj: [{ required: true, message: '请输入调度层级!'}],
           xmmc: [{ required: true, message: '请输入项目名称!'}],
-          // 其他验证规则...
         },
         refKeys: ['xmjzbList'],
         activeKey: 'xmjzbList',
@@ -86,12 +84,13 @@
               width:"200px",
               placeholder: '请选择项目状态',
               onChange: function(event, record) {
-                if (event === '是') {
+                if (event === '是' || event === '无需办理') {
                   record.blqx = ''
                   record.blcj = ''
                   record.zjqk = ''
                 }
-              }
+              },
+              validateRules: [{ required: true, message: '请选择项目状态!' }]
             },
             {
               title: '办理期限',
@@ -100,7 +99,7 @@
               width:"200px",
               placeholder: '请选择办理期限',
               disabled: function(record) {
-                return record.xmzt === '是'
+                return record.xmzt === '是' || record.xmzt === '无需办理'
               }
             },
             {
@@ -111,7 +110,7 @@
               width:"200px",
               placeholder: '请选择办理层级',
               disabled: function(record) {
-                return record.xmzt === '是'
+                return record.xmzt === '是' || record.xmzt === '无需办理'
               }
             },
             {
@@ -121,7 +120,7 @@
               width:"200px",
               placeholder: '请输入组卷情况',
               disabled: function(record) {
-                return record.xmzt === '是'
+                return record.xmzt === '是' || record.xmzt === '无需办理'
               }
             },
             {
