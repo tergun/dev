@@ -83,7 +83,38 @@
             :toolbar="false"
             :actionButton="false"
             @valueChange="handleValueChange"
-            />
+            :cellSlots="{
+              blqx: 'blqx_slot',
+              blcj: 'blcj_slot',
+              zjqk: 'zjqk_slot'
+            }"
+            >
+            <template #blqx_slot="{ row, column }">
+              <j-date 
+                v-model="row.blqx" 
+                v-forceDisable="row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3"
+                :placeholder="column.placeholder"
+                style="width: 100%"
+              />
+            </template>
+            <template #blcj_slot="{ row, column }">
+              <j-dict-select-tag 
+                v-model="row.blcj" 
+                v-forceDisable="row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3"
+                :dictCode="column.dictCode"
+                :placeholder="column.placeholder"
+                style="width: 100%"
+              />
+            </template>
+            <template #zjqk_slot="{ row, column }">
+              <a-textarea 
+                v-model="row.zjqk" 
+                v-forceDisable="row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3"
+                :placeholder="column.placeholder"
+                :rows="2"
+                style="width: 100%"
+              />
+            </template>
         </a-tab-pane>
       </a-tabs>
     </a-spin>
@@ -204,10 +235,7 @@
               type: FormTypes.date,
               width:"200px",
               placeholder: '请选择办理期限',
-              defaultValue:'',
-              disabled: function(record) {
-                return record.xmzt === '是' || record.xmzt === '无需办理' || record.xmzt == 1 || record.xmzt == 3
-              }
+              defaultValue:''
             },
             {
               title: '办理层级',
@@ -216,10 +244,7 @@
               dictCode:"ddcj",
               width:"200px",
               placeholder: '请选择办理层级',
-              defaultValue:'',
-              disabled: function(record) {
-                return record.xmzt === '是' || record.xmzt === '无需办理' || record.xmzt == 1 || record.xmzt == 3
-              }
+              defaultValue:''
             },
             {
               title: '组卷情况',
@@ -227,10 +252,7 @@
               type: FormTypes.textarea,
               width:"200px",
               placeholder: '请输入组卷情况',
-              defaultValue:'',
-              disabled: function(record) {
-                return record.xmzt === '是' || record.xmzt === '无需办理' || record.xmzt == 1 || record.xmzt == 3
-              }
+              defaultValue:''
             },
             {
               title: '审批情况',
@@ -401,6 +423,7 @@
             // 强制更新组件
             this.$nextTick(() => {
               // 刷新表格，使行级禁用生效
+              console.log('Disabling fields for row:', event.row.blgc)
               this.$forceUpdate()
               
               // 获取表格引用并刷新
