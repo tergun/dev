@@ -98,7 +98,8 @@
             <template #blqx_slot="{ row, column }">
               <j-date 
                 v-model="row.blqx" 
-                v-forceDisable="row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3"
+                :disabled="row.blgc === '立项' && (row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3)"
+                :class="{'disabled-field': row.blgc === '立项' && (row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3)}"
                 :placeholder="column.placeholder"
                 style="width: 100%"
               />
@@ -106,7 +107,8 @@
             <template #blcj_slot="{ row, column }">
               <j-dict-select-tag 
                 v-model="row.blcj" 
-                v-forceDisable="row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3"
+                :disabled="row.blgc === '立项' && (row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3)"
+                :class="{'disabled-field': row.blgc === '立项' && (row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3)}"
                 :dictCode="column.dictCode"
                 :placeholder="column.placeholder"
                 style="width: 100%"
@@ -115,7 +117,8 @@
             <template #zjqk_slot="{ row, column }">
               <a-textarea 
                 v-model="row.zjqk" 
-                v-forceDisable="row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3"
+                :disabled="row.blgc === '立项' && (row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3)"
+                :class="{'disabled-field': row.blgc === '立项' && (row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3)}"
                 :placeholder="column.placeholder"
                 :rows="2"
                 style="width: 100%"
@@ -476,9 +479,9 @@
           // 更新行数据，使用显示文本
           this.$set(event.row, 'xmzt', displayValue)
           
-          // 如果值为"是"或"无需办理"，则清空相关字段
-          if (displayValue === '是' || displayValue === '无需办理' || 
-              value == 1 || value == 3) {
+          // 如果是第一行且值为"是"或"无需办理"，则清空相关字段
+          if ((event.row.blgc === '立项') && (displayValue === '是' || displayValue === '无需办理' || 
+              value == 1 || value == 3)) {
             // 清空相关字段
             this.$set(event.row, 'blqx', '')
             this.$set(event.row, 'blcj', '')
