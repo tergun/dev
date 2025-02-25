@@ -111,12 +111,8 @@
                   return record.xmzt === '是' || record.xmzt === '无需办理'
                 },
                 disabledDate: () => true,
-                open: function(record) {
-                  return !(record.xmzt === '是' || record.xmzt === '无需办理')
-                },
+                open: false,
                 style: {
-                  backgroundColor: '#f5f5f5',
-                  cursor: 'not-allowed',
                   pointerEvents: 'none'
                 }
               }
