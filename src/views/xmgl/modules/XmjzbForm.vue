@@ -1,7 +1,6 @@
 <template>
   <a-spin :spinning="confirmLoading">
     <j-form-container :disabled="formDisabled">
-      <!-- 主表单区域 -->
       <a-form-model ref="form" :model="model" :rules="validatorRules" slot="detail">
         <a-row>
           <a-col :xs="24" :sm="12">
@@ -17,7 +16,6 @@
         </a-row>
       </a-form-model>
 
-      <!-- 子表单区域 -->
       <a-tabs v-model="activeKey" @change="handleChangeTabs">
         <a-tab-pane tab="重点项目管理子表" :key="refKeys[0]" :forceRender="true">
           <j-editable-table
@@ -84,13 +82,12 @@
               width:"200px",
               placeholder: '请选择项目状态',
               onChange: function(event, record) {
-                if (event === '是' || event === '无需办理') {
+                if (event === '是') {
                   record.blqx = ''
                   record.blcj = ''
                   record.zjqk = ''
                 }
-              },
-              validateRules: [{ required: true, message: '请选择项目状态!' }]
+              }
             },
             {
               title: '办理期限',
@@ -99,7 +96,7 @@
               width:"200px",
               placeholder: '请选择办理期限',
               disabled: function(record) {
-                return record.xmzt === '是' || record.xmzt === '无需办理'
+                return record.xmzt === '是'
               }
             },
             {
@@ -110,7 +107,7 @@
               width:"200px",
               placeholder: '请选择办理层级',
               disabled: function(record) {
-                return record.xmzt === '是' || record.xmzt === '无需办理'
+                return record.xmzt === '是'
               }
             },
             {
@@ -120,7 +117,7 @@
               width:"200px",
               placeholder: '请输入组卷情况',
               disabled: function(record) {
-                return record.xmzt === '是' || record.xmzt === '无需办理'
+                return record.xmzt === '是'
               }
             },
             {
@@ -162,7 +159,6 @@
         ]
       },
       handleChangeTabs(key) {
-        // Reset scroll when switching tabs
         getRefPromise(this, key).then(editableTable => {
           editableTable.resetScrollTop()
         })
