@@ -20,14 +20,16 @@
     <!-- 子表单区域 -->
     <a-tabs v-model="activeKey" @change="handleChangeTabs">
       <a-tab-pane tab="重点项目管理子表" :key="refKeys[0]" :forceRender="true">
-        <j-editable-table
+        <j-vxe-table
           ref="xmjzbList"
+          keep-source
           :loading="xmjzbListTable.loading"
           :columns="xmjzbListTable.columns"
           :dataSource="xmjzbListTable.dataSource"
           :maxHeight="300"
           :rowNumber="true"
           :rowSelection="false"
+          :toolbar="false"
           :actionButton="false"
         />
       </a-tab-pane>
@@ -36,16 +38,17 @@
 </template>
 
 <script>
-  import { FormTypes,getRefPromise,VALIDATE_NO_PASSED } from '@/utils/JEditableTableUtil'
-  import { JEditableTableModelMixin } from '@/mixins/JEditableTableModelMixin'
+  import { getRefPromise,VALIDATE_NO_PASSED } from '@/components/jeecg/JVxeTable/utils/vxeUtils'
+  import { JVxeTableModelMixin } from '@/mixins/JVxeTableModelMixin'
   import { validateDuplicateValue } from '@/utils/util'
-  import JEditableTable from '@/components/jeecg/JEditableTable'
+  import { JVXETypes } from '@/components/jeecg/JVxeTable'
+  import JVxeTable from '@/components/jeecg/JVxeTable'
 
   export default {
     name: 'XmjzbForm',
-    mixins: [JEditableTableModelMixin],
+    mixins: [JVxeTableModelMixin],
     components: {
-      JEditableTable
+      JVxeTable
     },
     data() {
       return {
@@ -71,95 +74,86 @@
             {
               title: '办理过程',
               key: 'blgc',
-              type: FormTypes.input,
+              type: JVXETypes.input,
               width:"200px",
               placeholder: '请输入办理过程',
             },
             {
               title: '项目状态',
               key: 'xmzt',
-              type: FormTypes.select,
+              type: JVXETypes.select,
               dictCode:"spzt",
               width:"200px",
               placeholder: '请选择项目状态',
-              onChange: function(event, record) {
-                if (event === '是' || event === '无需办理') {
-                  record.blqx = ''
-                  record.blcj = ''
-                  record.zjqk = ''
-                  // Force update to trigger re-render
-                  this.$forceUpdate()
+              onChange: ({ value, row }) => {
+                if (value === '1' || value === '3') {
+                  // Clear fields when status is 1 or 3
+                  row.blqx = ''
+                  row.blcj = ''
+                  row.zjqk = ''
+                  // Force update to ensure UI reflects changes
+                  this.$refs.xmjzbList.refreshRow(row)
                 }
               }
             },
             {
               title: '办理期限',
               key: 'blqx',
-              type: FormTypes.date,
+              type: JVXETypes.date,
               width:"200px",
               placeholder: '请选择办理期限',
-              disabled: function(record) {
-                return record.xmzt === '是' || record.xmzt === '无需办理'
-              },
-              componentProps: {
-                allowClear: false,
-                inputReadOnly: true,
-                disabled: function(record) {
-                  return record.xmzt === '是' || record.xmzt === '无需办理'
-                },
-                disabledDate: () => true,
-                open: false,
-                style: function(record) {
-                  return record.xmzt === '是' || record.xmzt === '无需办理' ? {
-                    backgroundColor: '#f5f5f5',
-                    cursor: 'not-allowed',
-                    pointerEvents: 'none'
-                  } : {}
+              disabled: ({ row }) => row.xmzt === '1' || row.xmzt === '3',
+              editRender: {
+                name: 'ADatePicker',
+                props: {
+                  style: ({ row }) => {
+                    return row.xmzt === '1' || row.xmzt === '3' ? {
+                      backgroundColor: '#f5f5f5',
+                      cursor: 'not-allowed',
+                      pointerEvents: 'none'
+                    } : {}
+                  }
                 }
               }
             },
             {
               title: '办理层级',
               key: 'blcj',
-              type: FormTypes.select,
+              type: JVXETypes.select,
               dictCode:"ddcj",
               width:"200px",
               placeholder: '请选择办理层级',
-              disabled: function(record) {
-                return record.xmzt === '是' || record.xmzt === '无需办理'
-              },
-              componentProps: {
-                disabled: function(record) {
-                  return record.xmzt === '是' || record.xmzt === '无需办理'
-                },
-                style: function(record) {
-                  return record.xmzt === '是' || record.xmzt === '无需办理' ? {
-                    backgroundColor: '#f5f5f5',
-                    cursor: 'not-allowed',
-                    pointerEvents: 'none'
-                  } : {}
+              disabled: ({ row }) => row.xmzt === '1' || row.xmzt === '3',
+              editRender: {
+                name: 'ASelect',
+                props: {
+                  style: ({ row }) => {
+                    return row.xmzt === '1' || row.xmzt === '3' ? {
+                      backgroundColor: '#f5f5f5',
+                      cursor: 'not-allowed',
+                      pointerEvents: 'none'
+                    } : {}
+                  }
                 }
               }
             },
             {
               title: '组卷情况',
               key: 'zjqk',
-              type: FormTypes.textarea,
+              type: JVXETypes.input,
               width:"200px",
               placeholder: '请输入组卷情况',
-              disabled: function(record) {
-                return record.xmzt === '是' || record.xmzt === '无需办理'
-              },
-              componentProps: {
-                disabled: function(record) {
-                  return record.xmzt === '是' || record.xmzt === '无需办理'
-                },
-                style: function(record) {
-                  return record.xmzt === '是' || record.xmzt === '无需办理' ? {
-                    backgroundColor: '#f5f5f5',
-                    cursor: 'not-allowed',
-                    pointerEvents: 'none'
-                  } : {}
+              disabled: ({ row }) => row.xmzt === '1' || row.xmzt === '3',
+              editRender: {
+                name: 'AInput',
+                props: {
+                  style: ({ row }) => {
+                    return row.xmzt === '1' || row.xmzt === '3' ? {
+                      backgroundColor: '#f5f5f5',
+                      cursor: 'not-allowed',
+                      pointerEvents: 'none'
+                    } : {}
+                  }
                 }
               }
             },
@@ -187,18 +181,18 @@
       addBefore(){
         // 添加12个默认的办理流程
         this.xmjzbListTable.dataSource=[
-          { blgc: '立项', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '建设工程文物保护和考古许可（预审意见或许可）', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '用地预审和规划选址意见书', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '新增建设用地审批', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '建设用地规划许可审批', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '建设工程规划许可审批', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '节能审查', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '林地征占手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '草地征占手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '环境影响评价手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '取水许可手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '开工许可手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' }
+          { blgc: '立项', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '建设工程文物保护和考古许可（预审意见或许可）', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '用地预审和规划选址意见书', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '新增建设用地审批', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '建设用地规划许可审批', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '建设工程规划许可审批', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '节能审查', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '林地征占手续', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '草地征占手续', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '环境影响评价手续', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '取水许可手续', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '开工许可手续', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' }
         ]
       },
       handleChangeTabs(key) {
