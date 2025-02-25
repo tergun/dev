@@ -89,6 +89,12 @@
               zjqk: 'zjqk_slot'
             }"
             >
+            <!-- 添加打印按钮 -->
+            <template #toolBarPrefix>
+              <a-button type="primary" @click="printYdys" style="margin-right: 8px;">
+                打印用地预审和规划选址意见书
+              </a-button>
+            </template>
             <template #blqx_slot="{ row, column }">
               <j-date 
                 v-model="row.blqx" 
@@ -301,6 +307,44 @@
       this.loadDictData()
     },
     methods: {
+      /**
+       * 打印"用地预审和规划选址意见书"字符串
+       */
+      printYdys() {
+        // 创建打印窗口
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+          <html>
+            <head>
+              <title>打印</title>
+              <style>
+                body {
+                  font-family: SimSun, serif;
+                  padding: 20px;
+                }
+                .content {
+                  font-size: 16px;
+                  text-align: center;
+                  margin-top: 100px;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="content">
+                <h2>用地预审和规划选址意见书</h2>
+              </div>
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
+        
+        // 等待内容加载完成后打印
+        printWindow.onload = function() {
+          printWindow.print();
+          // printWindow.close(); // 如果需要打印后自动关闭窗口，取消注释
+        };
+      },
+      
       // 加载字典数据
       loadDictData() {
         // 如果有需要，可以在这里从服务器加载字典数据
