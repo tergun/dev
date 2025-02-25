@@ -83,15 +83,12 @@
               width:"200px",
               placeholder: '请选择项目状态',
               onChange: function(event, record) {
-                const vm = this
                 if (event === '是' || event === '无需办理') {
                   record.blqx = ''
                   record.blcj = ''
                   record.zjqk = ''
-                  // Force update to trigger re-render and ensure disabled states are applied
-                  vm.$nextTick(() => {
-                    vm.$forceUpdate()
-                  })
+                  // Force update to trigger re-render
+                  this.$forceUpdate()
                 }
               }
             },
