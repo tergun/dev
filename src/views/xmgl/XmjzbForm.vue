@@ -365,6 +365,26 @@
         if (typeof this.addBefore === 'function') this.addBefore()
         this.edit({})
       },
+      
+      /**
+       * 在添加前初始化表格数据，设置第一行项目状态为"是"
+       */
+      addBefore() {
+        // 初始化表格数据，设置第一行的项目状态为"是"
+        this.xmjzbListTable.dataSource = [
+          { blgc: '立项', xmzt: '是', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '用地预审和规划选址意见书', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '建设用地规划许可证', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '建设工程规划许可证', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '建筑工程施工许可证', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '节能审查', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '林地征占手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '草地征占手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '环境影响评价手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '取水许可手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '开工许可手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' }
+        ]
+      },
       edit(record) {
         if (record && '{}'!=JSON.stringify(record) && record.id) {
           this.tableReset()
