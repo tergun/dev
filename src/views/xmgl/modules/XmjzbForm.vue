@@ -109,8 +109,12 @@
                 },
                 disabledDate: () => true,
                 open: false,
-                style: {
-                  pointerEvents: 'none'
+                style: function(record) {
+                  return record.xmzt === '是' || record.xmzt === '无需办理' ? {
+                    backgroundColor: '#f5f5f5',
+                    cursor: 'not-allowed',
+                    pointerEvents: 'none'
+                  } : {}
                 }
               }
             },
@@ -123,6 +127,18 @@
               placeholder: '请选择办理层级',
               disabled: function(record) {
                 return record.xmzt === '是' || record.xmzt === '无需办理'
+              },
+              componentProps: {
+                disabled: function(record) {
+                  return record.xmzt === '是' || record.xmzt === '无需办理'
+                },
+                style: function(record) {
+                  return record.xmzt === '是' || record.xmzt === '无需办理' ? {
+                    backgroundColor: '#f5f5f5',
+                    cursor: 'not-allowed',
+                    pointerEvents: 'none'
+                  } : {}
+                }
               }
             },
             {
@@ -133,6 +149,18 @@
               placeholder: '请输入组卷情况',
               disabled: function(record) {
                 return record.xmzt === '是' || record.xmzt === '无需办理'
+              },
+              componentProps: {
+                disabled: function(record) {
+                  return record.xmzt === '是' || record.xmzt === '无需办理'
+                },
+                style: function(record) {
+                  return record.xmzt === '是' || record.xmzt === '无需办理' ? {
+                    backgroundColor: '#f5f5f5',
+                    cursor: 'not-allowed',
+                    pointerEvents: 'none'
+                  } : {}
+                }
               }
             },
             {
