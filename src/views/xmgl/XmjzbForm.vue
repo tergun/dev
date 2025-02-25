@@ -98,8 +98,8 @@
             <template #blqx_slot="{ row, column }">
               <j-date 
                 v-model="row.blqx" 
-                :disabled="row.blgc === '立项' && (row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3)"
-                :class="{'disabled-field': row.blgc === '立项' && (row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3)}"
+                :disabled="row.blgc === '立项' && this.shouldDisableFirstRow"
+                :class="{'disabled-field': row.blgc === '立项' && this.shouldDisableFirstRow}"
                 :placeholder="column.placeholder"
                 style="width: 100%"
               />
@@ -107,8 +107,8 @@
             <template #blcj_slot="{ row, column }">
               <j-dict-select-tag 
                 v-model="row.blcj" 
-                :disabled="row.blgc === '立项' && (row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3)"
-                :class="{'disabled-field': row.blgc === '立项' && (row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3)}"
+                :disabled="row.blgc === '立项' && this.shouldDisableFirstRow"
+                :class="{'disabled-field': row.blgc === '立项' && this.shouldDisableFirstRow}"
                 :dictCode="column.dictCode"
                 :placeholder="column.placeholder"
                 style="width: 100%"
@@ -117,8 +117,8 @@
             <template #zjqk_slot="{ row, column }">
               <a-textarea 
                 v-model="row.zjqk" 
-                :disabled="row.blgc === '立项' && (row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3)"
-                :class="{'disabled-field': row.blgc === '立项' && (row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3)}"
+                :disabled="row.blgc === '立项' && this.shouldDisableFirstRow"
+                :class="{'disabled-field': row.blgc === '立项' && this.shouldDisableFirstRow}"
                 :placeholder="column.placeholder"
                 :rows="2"
                 style="width: 100%"
@@ -289,7 +289,9 @@
             2: '否',
             3: '无需办理'
           }
-        }
+        },
+        // 是否禁用第一行的办理期限字段
+        shouldDisableFirstRow: false
       }
     },
     props: {
@@ -370,12 +372,12 @@
       },
       
       /**
-       * 在添加前初始化表格数据，设置第一行项目状态为"是"
+       * 在添加前初始化表格数据
        */
       addBefore() {
-        // 初始化表格数据，设置第一行的项目状态为"是"
+        // 初始化表格数据
         this.xmjzbListTable.dataSource = [
-          { blgc: '立项', xmzt: '是', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '立项', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
           { blgc: '用地预审和规划选址意见书', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
           { blgc: '建设用地规划许可证', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
           { blgc: '建设工程规划许可证', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
@@ -387,6 +389,11 @@
           { blgc: '取水许可手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
           { blgc: '开工许可手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' }
         ]
+        
+        // 初始化后检查是否应该禁用第一行的办理期限字段
+        this.$nextTick(() => {
+          this.checkShouldDisableFirstRow()
+        })
       },
       edit(record) {
         if (record && '{}'!=JSON.stringify(record) && record.id) {
@@ -422,11 +429,17 @@
       /** 调用完edit()方法之后会自动调用此方法 */
       editAfter() {
         this.$nextTick(() => {
+          // 检查是否应该禁用第一行的办理期限字段
+          this.checkShouldDisableFirstRow()
         })
         // 加载子表数据
         if (this.model.id) {
           let params = { id: this.model.id }
           this.requestSubTableData(this.url.xmjzbList.list, params, this.xmjzbListTable)
+            .then(() => {
+              // 数据加载完成后，检查是否应该禁用第一行的办理期限字段
+              this.checkShouldDisableFirstRow()
+            })
         }
       },
       //校验所有一对一子表表单
@@ -479,26 +492,56 @@
           // 更新行数据，使用显示文本
           this.$set(event.row, 'xmzt', displayValue)
           
-          // 如果是第一行且值为"是"或"无需办理"，则清空相关字段
-          if ((event.row.blgc === '立项') && (displayValue === '是' || displayValue === '无需办理' || 
-              value == 1 || value == 3)) {
-            // 清空相关字段
-            this.$set(event.row, 'blqx', '')
-            this.$set(event.row, 'blcj', '')
-            this.$set(event.row, 'zjqk', '')
+          // 如果当前行的项目状态变为"是"或"无需办理"，则禁用第一行的办理期限字段
+          if (displayValue === '是' || displayValue === '无需办理' || 
+              value == 1 || value == 3) {
+            // 设置禁用标志
+            this.shouldDisableFirstRow = true
             
-            // 强制更新组件
-            this.$nextTick(() => {
-              // 刷新表格，使行级禁用生效
-              console.log('Disabling fields for row:', event.row.blgc)
-              this.$forceUpdate()
-              
-              // 获取表格引用并刷新
-              const tableRef = this.$refs[this.refKeys[0]]
-              if (tableRef && typeof tableRef.refreshScroll === 'function') {
-                tableRef.refreshScroll()
-              }
-            })
+            // 如果是第一行，则清空相关字段
+            if (event.row.blgc === '立项') {
+              this.$set(event.row, 'blqx', '')
+              this.$set(event.row, 'blcj', '')
+              this.$set(event.row, 'zjqk', '')
+            }
+          } else {
+            // 检查是否还有其他行的项目状态为"是"或"无需办理"
+            this.checkShouldDisableFirstRow()
+          }
+          
+          // 强制更新组件
+          this.$nextTick(() => {
+            // 刷新表格，使行级禁用生效
+            console.log('Updated project status for row:', event.row.blgc, 'to', displayValue)
+            console.log('shouldDisableFirstRow:', this.shouldDisableFirstRow)
+            this.$forceUpdate()
+            
+            // 获取表格引用并刷新
+            const tableRef = this.$refs[this.refKeys[0]]
+            if (tableRef && typeof tableRef.refreshScroll === 'function') {
+              tableRef.refreshScroll()
+            }
+          })
+        }
+      },
+      
+      /**
+       * 检查是否应该禁用第一行的办理期限字段
+       * 当任意行的项目状态为"是"或"无需办理"时，禁用第一行的办理期限字段
+       */
+      checkShouldDisableFirstRow() {
+        // 默认不禁用
+        this.shouldDisableFirstRow = false
+        
+        // 检查所有行的项目状态
+        if (this.xmjzbListTable.dataSource && this.xmjzbListTable.dataSource.length > 0) {
+          for (let i = 0; i < this.xmjzbListTable.dataSource.length; i++) {
+            const row = this.xmjzbListTable.dataSource[i]
+            if (row.xmzt === '是' || row.xmzt === '无需办理' || row.xmzt == 1 || row.xmzt == 3) {
+              // 如果有任意行的项目状态为"是"或"无需办理"，则禁用第一行的办理期限字段
+              this.shouldDisableFirstRow = true
+              break
+            }
           }
         }
       }
