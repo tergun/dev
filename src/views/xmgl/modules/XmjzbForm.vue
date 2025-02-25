@@ -87,6 +87,9 @@
               width:"200px",
               placeholder: '请选择项目状态',
               onChange: ({ value, row }) => {
+                if (value === '是') {
+                  console.log('你好')
+                }
                 if (value === '是' || value === '无需办理') {
                   // Clear fields when status is '是' or '无需办理'
                   row.blqx = ''
@@ -214,6 +217,9 @@
           if ($table.isUpdateByRow(row, field)) {
             // 校验当前行
             $table.validate(row).then((errMap) => {
+              if(cellValue === "是") {
+                console.log('你好')
+              }
               if(cellValue === "是" || cellValue === "无需办理") {
                 // Clear fields
                 row.blqx = ""
