@@ -39,14 +39,14 @@
 
 <script>
   import { getRefPromise,VALIDATE_NO_PASSED } from '@/components/jeecg/JVxeTable/utils/vxeUtils'
-  import { JVxeTableModelMixin } from '@/mixins/JVxeTableModelMixin'
+  import { JVxeTableMixin } from '@/mixins/JVxeTableMixin'
   import { validateDuplicateValue } from '@/utils/util'
   import { JVXETypes } from '@/components/jeecg/JVxeTable'
   import JVxeTable from '@/components/jeecg/JVxeTable'
 
   export default {
     name: 'XmjzbForm',
-    mixins: [JVxeTableModelMixin],
+    mixins: [JVxeTableMixin],
     components: {
       JVxeTable
     },
@@ -86,8 +86,8 @@
               width:"200px",
               placeholder: '请选择项目状态',
               onChange: ({ value, row }) => {
-                if (value === '1' || value === '3') {
-                  // Clear fields when status is 1 or 3
+                if (value === '是' || value === '无需办理') {
+                  // Clear fields when status is '是' or '无需办理'
                   row.blqx = ''
                   row.blcj = ''
                   row.zjqk = ''
@@ -102,12 +102,12 @@
               type: JVXETypes.date,
               width:"200px",
               placeholder: '请选择办理期限',
-              disabled: ({ row }) => row.xmzt === '1' || row.xmzt === '3',
+              disabled: ({ row }) => row.xmzt === '是' || row.xmzt === '无需办理',
               editRender: {
                 name: 'ADatePicker',
                 props: {
                   style: ({ row }) => {
-                    return row.xmzt === '1' || row.xmzt === '3' ? {
+                    return row.xmzt === '是' || row.xmzt === '无需办理' ? {
                       backgroundColor: '#f5f5f5',
                       cursor: 'not-allowed',
                       pointerEvents: 'none'
@@ -123,12 +123,12 @@
               dictCode:"ddcj",
               width:"200px",
               placeholder: '请选择办理层级',
-              disabled: ({ row }) => row.xmzt === '1' || row.xmzt === '3',
+              disabled: ({ row }) => row.xmzt === '是' || row.xmzt === '无需办理',
               editRender: {
                 name: 'ASelect',
                 props: {
                   style: ({ row }) => {
-                    return row.xmzt === '1' || row.xmzt === '3' ? {
+                    return row.xmzt === '是' || row.xmzt === '无需办理' ? {
                       backgroundColor: '#f5f5f5',
                       cursor: 'not-allowed',
                       pointerEvents: 'none'
@@ -143,12 +143,12 @@
               type: JVXETypes.input,
               width:"200px",
               placeholder: '请输入组卷情况',
-              disabled: ({ row }) => row.xmzt === '1' || row.xmzt === '3',
+              disabled: ({ row }) => row.xmzt === '是' || row.xmzt === '无需办理',
               editRender: {
                 name: 'AInput',
                 props: {
                   style: ({ row }) => {
-                    return row.xmzt === '1' || row.xmzt === '3' ? {
+                    return row.xmzt === '是' || row.xmzt === '无需办理' ? {
                       backgroundColor: '#f5f5f5',
                       cursor: 'not-allowed',
                       pointerEvents: 'none'
@@ -177,23 +177,31 @@
         }
       }
     },
+    mounted() {
+      // Initialize the table data in mounted hook for proper component initialization
+      this.addDefaultRows()
+    },
     methods: {
-      addBefore(){
-        // 添加12个默认的办理流程
-        this.xmjzbListTable.dataSource=[
-          { blgc: '立项', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '建设工程文物保护和考古许可（预审意见或许可）', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '用地预审和规划选址意见书', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '新增建设用地审批', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '建设用地规划许可审批', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '建设工程规划许可审批', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '节能审查', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '林地征占手续', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '草地征占手续', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '环境影响评价手续', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '取水许可手续', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' },
-          { blgc: '开工许可手续', xmzt: '2', blqx: '', blcj: '', zjqk: '', spqk: '' }
-        ]
+      addDefaultRows() {
+        // 添加12个默认的办理流程，确保表格初始化完成后再设置数据
+        this.$nextTick(() => {
+          this.xmjzbListTable.dataSource=[
+          { blgc: '立项', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '建设工程文物保护和考古许可（预审意见或许可）', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '用地预审和规划选址意见书', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '新增建设用地审批', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '建设用地规划许可审批', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '建设工程规划许可审批', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '节能审查', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '林地征占手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '草地征占手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '环境影响评价手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '取水许可手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' },
+          { blgc: '开工许可手续', xmzt: '否', blqx: '', blcj: '', zjqk: '', spqk: '' }
+          ]
+          // Force refresh table after data is set
+          this.$refs.xmjzbList.refreshScroll()
+        })
       },
       handleChangeTabs(key) {
         getRefPromise(this, key).then(editableTable => {
