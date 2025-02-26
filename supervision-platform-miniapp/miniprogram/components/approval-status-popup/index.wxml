@@ -1,0 +1,45 @@
+<view class="popup-wrapper">
+  <view class="popup-content">
+    <view class="table">
+      <view class="table-header-section">
+        <view class="section-title">审批手续办理情况</view>
+      </view>
+      <scroll-view class="scroll-container" scroll-y>
+        <view class="table-content">
+          <block wx:for="{{tableData}}" wx:key="index">
+            <!-- First item -->
+            <view class="table-row">
+              <view class="table-group">
+                <view class="table-header">
+                  <text class="header-text">{{item.header1}}</text>
+                </view>
+                <view class="table-cell {{getStatusClass(item.value1)}}">
+                  <text class="status-dot" wx:if="{{item.value1 === '是'}}"></text>
+                  <text class="cell-text">{{item.value1}}</text>
+                </view>
+              </view>
+            </view>
+            <!-- Second item (now in a separate row) -->
+            <view class="table-row">
+              <view class="table-group">
+                <view class="table-header">
+                  <text class="header-text">{{item.header2}}</text>
+                </view>
+                <view class="table-cell {{getStatusClass(item.value2)}}">
+                  <text class="status-dot" wx:if="{{item.value2 === '是'}}"></text>
+                  <text class="cell-text">{{item.value2}}</text>
+                </view>
+              </view>
+            </view>
+          </block>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+  <view class="popup-close-wrapper">
+    <view class="connect-line"></view>
+    <view class="popup-close" bindtap="closePopup">
+      <text class="close-icon">×</text>
+    </view>
+  </view>
+</view>
