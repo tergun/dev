@@ -10,15 +10,12 @@ export default {
         primary: '#1890FF',
         'primary-light': '#40A9FF',
       },
-      animation: {
-        'grow-up': 'growUp 1s ease-out forwards',
-      },
       keyframes: {
-        growUp: {
-          '0%': { transform: 'scaleY(0)' },
-          '100%': { transform: 'scaleY(1)' },
+        slideUp: {
+          '0%': { transform: 'scaleY(0)', opacity: '0' },
+          '100%': { transform: 'scaleY(1)', opacity: '0.9' }
         }
-      },
+      }
     },
   },
   plugins: [],

@@ -6,23 +6,24 @@
       <div class="absolute bottom-20 right-20 w-96 h-96 bg-blue-300/10 rounded-full blur-3xl"></div>
     </div>
     
-    <div class="container mx-auto px-4 flex items-center justify-between max-w-7xl relative">
+    <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between max-w-7xl relative">
       <!-- Left side: Stats -->
-      <div class="flex-1 mr-20">
-        <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-8 shadow-2xl relative">
-          <div class="flex items-end justify-center gap-8 h-64">
-            <div v-for="(item, index) in stats" :key="index" class="flex flex-col items-center">
-              <div class="w-8 bg-white/90 rounded-lg transition-all duration-500"
-                   :style="{
-                     height: item.height + 'px',
-                     transform: 'scaleY(0)',
-                     animation: `growUp ${0.5 + index * 0.2}s ease-out forwards`
-                   }">
-              </div>
-              <div class="mt-4 text-white/90 text-sm font-medium">{{ item.label }}</div>
+      <div class="w-full md:w-[480px] mb-8 md:mb-0 md:mr-20">
+        <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-8 shadow-2xl">
+          <div class="flex items-end justify-center gap-6 h-64">
+            <div class="flex flex-col items-center">
+              <div class="stats-bar h-[160px]"></div>
+              <p class="mt-4 text-white/90 text-sm">项目数</p>
+            </div>
+            <div class="flex flex-col items-center">
+              <div class="stats-bar h-[200px] animation-delay-200"></div>
+              <p class="mt-4 text-white/90 text-sm">投资额</p>
+            </div>
+            <div class="flex flex-col items-center">
+              <div class="stats-bar h-[180px] animation-delay-400"></div>
+              <p class="mt-4 text-white/90 text-sm">完成率</p>
             </div>
           </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent rounded-2xl pointer-events-none"></div>
         </div>
       </div>
 
@@ -90,6 +91,41 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+.stats-bar {
+  width: 2rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 0.5rem;
+  transform-origin: bottom;
+  transform: scaleY(0);
+  animation: grow 1s ease-out forwards;
+}
+
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animation-delay-400 {
+  animation-delay: 0.4s;
+}
+
+.stats-bar:hover {
+  background: white;
+  transition: background-color 0.3s;
+}
+
+@keyframes grow {
+  from {
+    transform: scaleY(0);
+    opacity: 0.5;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 0.9;
+  }
+}
+</style>
 
 <script setup lang="ts">
 import { ref } from 'vue'
