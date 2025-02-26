@@ -2,29 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.chart-column {
-  @apply flex flex-col items-center;
-}
-
-.chart-bar {
-  @apply w-8 bg-white/90 rounded-lg;
-  transform-origin: bottom;
-  animation: grow-up 1s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.chart-bar:hover {
-  @apply bg-white transition-colors duration-300;
-}
-
-@keyframes grow-up {
-  from {
-    transform: scaleY(0);
-  }
-  to {
-    transform: scaleY(1);
-  }
-}
-
 #app {
   min-height: 100vh;
 }

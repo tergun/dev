@@ -1,1 +1,7 @@
-[Content from /home/ubuntu/vue-login/src/App.vue]
+<template>
+  <RouterView />
+</template>
+
+<script setup lang="ts">
+import { RouterView } from 'vue-router'
+</script>
