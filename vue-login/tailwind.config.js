@@ -11,20 +11,13 @@ export default {
         'primary-light': '#40A9FF',
       },
       animation: {
-        'spin-slow': 'spin 8s linear infinite',
-        'spin-reverse': 'spin-reverse 6s linear infinite',
-        'float': 'float 3s ease-in-out infinite',
-        'float-delay': 'float 3s ease-in-out infinite 1.5s',
+        'grow-up': 'growUp 1s ease-out forwards',
       },
       keyframes: {
-        'spin-reverse': {
-          'from': { transform: 'rotate(360deg)' },
-          'to': { transform: 'rotate(0deg)' },
-        },
-        'float': {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-20px)' },
-        },
+        growUp: {
+          '0%': { transform: 'scaleY(0)' },
+          '100%': { transform: 'scaleY(1)' },
+        }
       },
     },
   },
