@@ -1,6 +1,5 @@
-/// <reference path="../../../../typings/index.d.ts" />
-
 // Component definition for approval status popup
+// @ts-ignore
 Component({
   properties: {
     tableData: {
