@@ -55,9 +55,11 @@
 		<view class="card project-image-card">
 			<image class="project-image" :src="projectInfo.image || '/static/projects/smart-city.png'"
 				mode="aspectFill"></image>
-			<view class="follow-button" @tap="toggleFollow">
-				<text>{{ isFollowed ? '已关注' : '关注' }}</text>
-			</view>
+		</view>
+		
+		<!-- 悬浮关注按钮 -->
+		<view class="floating-follow-button" @tap="toggleFollow">
+			<text>{{ isFollowed ? '已关注' : '关注' }}</text>
 		</view>
 
 		<!-- 基本信息卡片 -->
@@ -468,23 +470,24 @@
 		background-color: rgba(0, 0, 0, 0.03);
 	}
 
-	// 关注按钮
-	.follow-button {
-		position: absolute;
-		top: 24rpx;
-		right: 24rpx;
+	// 悬浮关注按钮
+	.floating-follow-button {
+		position: fixed;
+		bottom: 120rpx;
+		right: 40rpx;
 		background-color: $primary-color;
 		color: #FFFFFF;
-		padding: 12rpx 24rpx;
-		border-radius: $border-radius;
+		padding: 16rpx 32rpx;
+		border-radius: 40rpx;
 		font-size: 28rpx;
 		font-weight: 500;
-		box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+		box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.15);
 		transition: $transition;
-		z-index: 10;
+		z-index: 100;
 		
 		&:active {
 			opacity: 0.9;
+			transform: scale(0.98);
 		}
 		
 		&.followed {
