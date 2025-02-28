@@ -303,6 +303,23 @@ import {
 		startPosition.x = e.touches[0].clientX
 		startPosition.y = e.touches[0].clientY
 		
+		// 获取屏幕信息
+		const systemInfo = uni.getSystemInfoSync()
+		const screenWidth = systemInfo.windowWidth
+		const screenHeight = systemInfo.windowHeight
+		const rpxRatio = 750 / screenWidth
+		
+		// 计算初始按钮位置（用于显示反馈）
+		const rightRpx = (screenWidth - startPosition.x) * rpxRatio
+		const bottomRpx = (screenHeight - startPosition.y) * rpxRatio
+		
+		// 显示轻微的触觉反馈（如果设备支持）
+		if (uni.vibrateShort) {
+			uni.vibrateShort({
+				success: function() {}
+			})
+		}
+		
 		// 显示拖动提示
 		uni.showToast({
 			title: '正在拖动按钮',
@@ -330,14 +347,18 @@ import {
 		const screenHeight = systemInfo.windowHeight
 		const rpxRatio = 750 / screenWidth
 		
-		// 直接根据手指位置计算按钮位置（从右下角计算）
-		// 将当前触摸点坐标转换为相对于右下角的rpx值
-		const rightDistance = (screenWidth - currentX) * rpxRatio
-		const bottomDistance = (screenHeight - currentY) * rpxRatio
+		// 计算按钮应该位于的位置（直接跟随手指）
+		// 注意：按钮的中心应该位于手指的位置
+		const buttonWidth = 120 // 估计按钮宽度，单位rpx
+		const buttonHeight = 60 // 估计按钮高度，单位rpx
+		
+		// 将手指位置转换为rpx，并计算按钮右下角的位置
+		const rightRpx = (screenWidth - currentX) * rpxRatio - (buttonWidth / 2)
+		const bottomRpx = (screenHeight - currentY) * rpxRatio - (buttonHeight / 2)
 		
 		// 设置按钮位置，确保按钮跟随手指移动
-		buttonPosition.x = rightDistance
-		buttonPosition.y = bottomDistance
+		buttonPosition.x = rightRpx > 0 ? rightRpx : 0
+		buttonPosition.y = bottomRpx > 0 ? bottomRpx : 0
 		
 		// 限制按钮不超出屏幕边界
 		if (buttonPosition.x < 20) buttonPosition.x = 20
@@ -608,6 +629,7 @@ import {
 		box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.15);
 		z-index: 100;
 		touch-action: none; /* 禁用浏览器默认的触摸行为 */
+		transition: opacity 0.2s, transform 0.2s; /* 只对透明度和变换添加过渡效果 */
 		
 		&:active {
 			opacity: 0.9;
@@ -623,6 +645,7 @@ import {
 		&.dragging {
 			transition: none; /* 拖动时禁用过渡效果，确保实时跟随 */
 			opacity: 0.8; /* 拖动时稍微透明 */
+			transform: scale(1.05); /* 拖动时稍微放大 */
 		}
 	}
 
