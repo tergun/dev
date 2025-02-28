@@ -60,7 +60,7 @@
 		<!-- 可拖动悬浮关注按钮 -->
 		<view 
 			class="floating-follow-button" 
-			:class="{'followed': isFollowed}"
+			:class="{'followed': isFollowed, 'dragging': isDragging}"
 			@tap="toggleFollow"
 			@touchstart="dragStart"
 			@touchmove="dragMove"
@@ -303,6 +303,13 @@ import {
 		startPosition.x = e.touches[0].clientX
 		startPosition.y = e.touches[0].clientY
 		
+		// 显示拖动提示
+		uni.showToast({
+			title: '正在拖动按钮',
+			icon: 'none',
+			duration: 1000
+		})
+		
 		console.log('开始拖动', startPosition.x, startPosition.y)
 	}
 	
@@ -317,23 +324,20 @@ import {
 		const currentX = e.touches[0].clientX
 		const currentY = e.touches[0].clientY
 		
-		// 计算移动距离
-		const deltaX = startPosition.x - currentX
-		const deltaY = startPosition.y - currentY
-		
-		// 直接设置按钮的绝对位置
-		// 注意：在UniApp中，rpx是相对单位，这里需要转换
-		// 假设屏幕宽度为750rpx（标准设计稿宽度）
-		const screenWidth = uni.getSystemInfoSync().windowWidth
+		// 获取屏幕信息
+		const systemInfo = uni.getSystemInfoSync()
+		const screenWidth = systemInfo.windowWidth
+		const screenHeight = systemInfo.windowHeight
 		const rpxRatio = 750 / screenWidth
 		
-		// 计算新位置（像素到rpx的转换）
-		const moveX = deltaX * rpxRatio
-		const moveY = deltaY * rpxRatio
+		// 直接根据手指位置计算按钮位置（从右下角计算）
+		// 将当前触摸点坐标转换为相对于右下角的rpx值
+		const rightDistance = (screenWidth - currentX) * rpxRatio
+		const bottomDistance = (screenHeight - currentY) * rpxRatio
 		
-		// 更新按钮位置
-		buttonPosition.x += moveX
-		buttonPosition.y -= moveY
+		// 设置按钮位置，确保按钮跟随手指移动
+		buttonPosition.x = rightDistance
+		buttonPosition.y = bottomDistance
 		
 		// 限制按钮不超出屏幕边界
 		if (buttonPosition.x < 20) buttonPosition.x = 20
@@ -341,11 +345,7 @@ import {
 		if (buttonPosition.x > 710) buttonPosition.x = 710
 		if (buttonPosition.y > 1200) buttonPosition.y = 1200
 		
-		// 更新起始位置
-		startPosition.x = currentX
-		startPosition.y = currentY
-		
-		console.log('拖动中', buttonPosition.x, buttonPosition.y, '移动了', moveX, moveY)
+		console.log('拖动中', buttonPosition.x, buttonPosition.y, '手指位置', currentX, currentY)
 	}
 	
 	const dragEnd = (e) => {
@@ -606,7 +606,6 @@ import {
 		font-size: 28rpx;
 		font-weight: 500;
 		box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.15);
-		transition: $transition;
 		z-index: 100;
 		touch-action: none; /* 禁用浏览器默认的触摸行为 */
 		
@@ -619,6 +618,11 @@ import {
 			background-color: rgba(45, 91, 255, 0.1);
 			color: $primary-color;
 			border: 1rpx solid $primary-color;
+		}
+		
+		&.dragging {
+			transition: none; /* 拖动时禁用过渡效果，确保实时跟随 */
+			opacity: 0.8; /* 拖动时稍微透明 */
 		}
 	}
 
