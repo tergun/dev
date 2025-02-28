@@ -57,14 +57,11 @@
 				mode="aspectFill"></image>
 		</view>
 		
-		<!-- 可拖动悬浮关注按钮 -->
+		<!-- 悬浮关注按钮 -->
 		<view 
 			class="floating-follow-button" 
-			@tap="toggleFollow"
-			@touchstart="dragStart"
-			@touchmove="dragMove"
-			@touchend="dragEnd"
-			:style="buttonStyle">
+			:class="{'followed': isFollowed}"
+			@tap="toggleFollow">
 			<text>{{ isFollowed ? '已关注' : '关注' }}</text>
 		</view>
 
@@ -175,9 +172,8 @@
 </template>
 
 <script setup>
-	import {
+import {
 		ref,
-		reactive,
 		onMounted
 	} from 'vue'
 	import config from '../../config'
@@ -187,24 +183,6 @@
 	const project_progress = ref("大板铁路站房改扩建项目2024年5月16日取得可研批复，巴林右旗人民政府和集通公司于6月14号签订合作协议，施工图纸评审和造价评审都已完毕，根据合作协议，旗政府于8月20日向共管账户转入2300万元用于项目建设。该项目于8月29日发布招标公告，最终中标单位为中铁建设集团有限公司和内蒙古铁建工程项目管理有限责任公司联合体。施工企业11月2日已进场施工并完成入统工作。")
 	const itemId = ref(null)
 	const isFollowed = ref(false)
-	
-	// 按钮位置状态
-	const buttonPosition = reactive({
-		x: 40,
-		y: 120
-	})
-	const buttonStyle = computed(() => {
-		return {
-			right: buttonPosition.x + 'rpx',
-			bottom: buttonPosition.y + 'rpx'
-		}
-	})
-	// 拖动状态
-	const isDragging = ref(false)
-	const startPosition = reactive({
-		x: 0,
-		y: 0
-	})
 	const projectInfo = ref({
 		level: '市级重点项目',
 		name: '智慧城市建设项目',
@@ -290,50 +268,7 @@
 		collapseState[section] = !collapseState[section]
 	}
 
-	// 拖动事件处理
-	const dragStart = (e) => {
-		// 防止触发点击事件
-		e.stopPropagation()
-		isDragging.value = true
-		startPosition.x = e.touches[0].clientX
-		startPosition.y = e.touches[0].clientY
-	}
-	
-	const dragMove = (e) => {
-		if (!isDragging.value) return
-		
-		// 计算移动距离
-		const deltaX = startPosition.x - e.touches[0].clientX
-		const deltaY = startPosition.y - e.touches[0].clientY
-		
-		// 更新按钮位置（注意方向：右侧和底部的坐标系）
-		buttonPosition.x += deltaX
-		buttonPosition.y -= deltaY
-		
-		// 限制按钮不超出屏幕边界
-		if (buttonPosition.x < 20) buttonPosition.x = 20
-		if (buttonPosition.y < 20) buttonPosition.y = 20
-		if (buttonPosition.x > 710) buttonPosition.x = 710
-		if (buttonPosition.y > 1200) buttonPosition.y = 1200
-		
-		// 更新起始位置
-		startPosition.x = e.touches[0].clientX
-		startPosition.y = e.touches[0].clientY
-	}
-	
-	const dragEnd = () => {
-		isDragging.value = false
-		
-		// 保存按钮位置到本地存储（可选）
-		uni.setStorageSync('followButtonPosition', {
-			x: buttonPosition.x,
-			y: buttonPosition.y
-		})
-	}
-	
-	const toggleFollow = (e) => {
-		// 如果正在拖动，不触发关注/取消关注
-		if (isDragging.value) return
+	const toggleFollow = () => {
 		
 		isFollowed.value = !isFollowed.value
 		uni.showToast({
@@ -450,16 +385,7 @@
 		}
 		console.log("页面传回的id", id)
 		
-		// 从本地存储加载按钮位置
-		try {
-			const savedPosition = uni.getStorageSync('followButtonPosition')
-			if (savedPosition) {
-				buttonPosition.x = savedPosition.x
-				buttonPosition.y = savedPosition.y
-			}
-		} catch (e) {
-			console.error('读取按钮位置失败', e)
-		}
+		// 按钮位置固定，不需要从本地存储加载
 	})
 </script>
 
