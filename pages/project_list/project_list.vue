@@ -32,6 +32,12 @@
         <view class="project-info">
           <view class="left-content">
             <image class="project-image" :src="item.image || '/static/projects/default-project.png'" mode="aspectFill"></image>
+            <view class="progress-container">
+              <text class="progress-label">工程形象进度：{{item.progress}}%</text>
+              <view class="progress-bar">
+                <view class="progress-line" :style="{ width: item.progress + '%' }"></view>
+              </view>
+            </view>
           </view>
           <view class="right-content">
             <view class="content">
@@ -42,12 +48,6 @@
               <view class="project-investor">
                 <text class="label">投资主体：</text>
                 <text class="value">{{item.investor}}</text>
-              </view>
-            </view>
-            <view class="progress-container">
-              <text class="progress-label">工程形象进度：{{item.progress}}%</text>
-              <view class="progress-bar">
-                <view class="progress-line" :style="{ width: item.progress + '%' }"></view>
               </view>
             </view>
           </view>
@@ -217,37 +217,6 @@ onMounted(() => {
       position: relative;
       overflow: hidden;
 
-      .progress-container {
-        width: 100%;
-        margin-top: 8rpx;
-        
-        .progress-label {
-          font-size: 24rpx;
-          color: #666;
-          margin-bottom: 6rpx;
-          display: block;
-        }
-
-        .progress-bar {
-          width: 100%;
-          height: 3rpx;
-          background: #f0f0f0;
-          border-radius: 2rpx;
-          overflow: hidden;
-          position: relative;
-        }
-
-        .progress-line {
-          position: absolute;
-          left: 0;
-          top: 0;
-          height: 100%;
-          background: linear-gradient(90deg, #409EFF 0%, #60A5FA 100%);
-          border-radius: 2rpx;
-          transition: width 0.3s ease;
-        }
-      }
-
       .project-info {
         display: flex;
         align-items: flex-start;
@@ -255,12 +224,47 @@ onMounted(() => {
 
         .left-content {
           margin-right: 24rpx;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
           
           .project-image {
             width: 160rpx;
             height: 160rpx;
             border-radius: 8rpx;
             flex-shrink: 0;
+            margin-bottom: 8rpx;
+          }
+
+          .progress-container {
+            width: 160rpx;
+            
+            .progress-label {
+              font-size: 24rpx;
+              color: #666;
+              margin-bottom: 6rpx;
+              display: block;
+              text-align: center;
+            }
+
+            .progress-bar {
+              width: 100%;
+              height: 3rpx;
+              background: #f0f0f0;
+              border-radius: 2rpx;
+              overflow: hidden;
+              position: relative;
+            }
+
+            .progress-line {
+              position: absolute;
+              left: 0;
+              top: 0;
+              height: 100%;
+              background: linear-gradient(90deg, #409EFF 0%, #60A5FA 100%);
+              border-radius: 2rpx;
+              transition: width 0.3s ease;
+            }
           }
         }
 
