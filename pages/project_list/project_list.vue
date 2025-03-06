@@ -34,7 +34,7 @@
           <view class="content">
             <view class="project-header">
               <text class="project-name" style="width: 80%;">{{item.name}}</text>
-              <text v-if="isRecentlyUpdated(item.updatedAt)" class="update-badge">近期更新</text>
+              <image v-if="isRecentlyUpdated(item.updatedAt)" src="/static/projects/update-badge.png" class="update-badge" mode="aspectFit"></image>
             </view>
             <view class="project-investor">
               <text class="label">投资主体：</text>
@@ -371,17 +371,9 @@ onMounted(() => {
   }
 
   .update-badge {
-    background: #409EFF;
-    color: #FFFFFF;
-    font-size: 24rpx;
-    padding: 4rpx 12rpx;
-    border-radius: 20rpx;
-    white-space: nowrap;
-
-    &.small {
-      font-size: 20rpx;
-      padding: 2rpx 8rpx;
-    }
+    width: 120rpx;
+    height: 40rpx;
+    object-fit: contain;
   }
 
   .loading,
