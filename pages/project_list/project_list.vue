@@ -45,10 +45,6 @@
                 <text class="progress-label">工程形象进度：{{item.progress}}%</text>
                 <view class="progress-bar project-progress" :style="{ '--progress': item.progress + '%' }"></view>
               </view>
-              <view class="progress-row">
-                <text class="progress-label">手续办理进度：{{item.procedureProgress}}%</text>
-                <view class="progress-bar procedure-progress" :style="{ '--progress': item.procedureProgress + '%' }"></view>
-              </view>
             </view>
           </view>
         </view>
@@ -69,8 +65,7 @@ const projectList = ref([{
     image: '/static/projects/smart-city.png',
     updatedAt: new Date(),
     investorUpdatedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
-    progress: 100,
-    procedureProgress: 85
+    progress: 100
   },
   {
     id: 2,
@@ -79,8 +74,7 @@ const projectList = ref([{
     image: '/static/projects/green-energy.png',
     updatedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
     investorUpdatedAt: new Date(),
-    progress: 45,
-    procedureProgress: 60
+    progress: 45
   },
   {
     id: 3,
@@ -89,8 +83,7 @@ const projectList = ref([{
     image: '/static/projects/smart-manufacturing.png',
     updatedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
     investorUpdatedAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
-    progress: 30,
-    procedureProgress: 40
+    progress: 30
   },
   {
     id: 4,
@@ -99,8 +92,7 @@ const projectList = ref([{
     image: '/static/projects/cultural-creative.png',
     updatedAt: new Date(),
     investorUpdatedAt: new Date(),
-    progress: 90,
-    procedureProgress: 95
+    progress: 90
   }
 ])
 const loading = ref(false)
@@ -153,8 +145,7 @@ const getProjectList = () => {
         id: item.id,
         name: item.xmmc,
         investor: item.tzzt,
-        progress: item.wcqk,
-        procedureProgress: item.sxwcl || 0 // Map procedure progress from API
+        progress: item.wcqk
       }))
     },
     fail: (res) => {
@@ -360,9 +351,7 @@ onMounted(() => {
                 background: linear-gradient(90deg, #409EFF 0%, #60A5FA 100%);
               }
               
-              .procedure-progress::after {
-                background: linear-gradient(90deg, #10B981 0%, #34D399 100%);
-              }
+
             }
           }
         }
