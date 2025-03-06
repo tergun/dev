@@ -31,16 +31,18 @@
       <view class="project-item" v-else v-for="item in projectList" :key="item.id" @tap="handleProjectClick(item)">
         <view class="project-info">
           <view class="left-content">
-            <image class="project-image" :src="item.image || '/static/title.png'" mode="aspectFill"></image>
+            <image class="project-image" :src="item.image || '/static/projects/default-project.png'" mode="aspectFill"></image>
           </view>
           <view class="right-content">
-            <view class="project-header">
-              <text class="project-name">{{item.name}}</text>
-              <image v-if="isRecentlyUpdated(item.updatedAt)" src="/static/projects/update-badge.png" class="update-badge" mode="aspectFit"></image>
-            </view>
-            <view class="project-investor">
-              <text class="label">投资主体：</text>
-              <text class="value">{{item.investor}}</text>
+            <view class="content">
+              <view class="project-header">
+                <text class="project-name">{{item.name}}</text>
+                <image v-if="isRecentlyUpdated(item.updatedAt)" src="/static/projects/update-badge.png" class="update-badge" mode="aspectFit"></image>
+              </view>
+              <view class="project-investor">
+                <text class="label">投资主体：</text>
+                <text class="value">{{item.investor}}</text>
+              </view>
             </view>
             <view class="progress-container">
               <text class="progress-label">工程形象进度：{{item.progress}}%</text>
@@ -217,12 +219,12 @@ onMounted(() => {
 
       .progress-container {
         width: 100%;
-        margin: 16rpx 0;
+        margin-top: 8rpx;
         
         .progress-label {
           font-size: 24rpx;
           color: #666;
-          margin-bottom: 8rpx;
+          margin-bottom: 6rpx;
           display: block;
         }
 
@@ -252,11 +254,11 @@ onMounted(() => {
         width: 100%;
 
         .left-content {
-          margin-right: 20rpx;
+          margin-right: 24rpx;
           
           .project-image {
-            width: 120rpx;
-            height: 120rpx;
+            width: 160rpx;
+            height: 160rpx;
             border-radius: 8rpx;
             flex-shrink: 0;
           }
@@ -264,12 +266,15 @@ onMounted(() => {
 
         .right-content {
           flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
           
           .project-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12rpx;
+            margin-bottom: 8rpx;
 
             .project-name {
               font-size: 32rpx;
@@ -286,7 +291,7 @@ onMounted(() => {
             color: #666666;
             display: flex;
             align-items: center;
-            margin-bottom: 16rpx;
+            margin-bottom: 12rpx;
 
             .label {
               color: #999999;
