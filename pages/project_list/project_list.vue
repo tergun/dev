@@ -29,16 +29,13 @@
         <view class="empty">暂无项目</view>
       </template>
       <view class="project-item" v-else v-for="item in projectList" :key="item.id" @tap="handleProjectClick(item)">
+        <!-- 进度蒙层 -->
+        <view class="progress-overlay" :style="{ width: item.progress + '%' }"></view>
+        <view style="height: 100%;display: block;align-items: end;">
+          <text class="progress-text">形象进度：{{item.progress}}%</text>
+        </view>
         <view class="project-info">
-          <view class="left-content">
-            <image class="project-image" :src="item.image || '/static/projects/default-project.png'" mode="aspectFill"></image>
-            <view class="progress-container">
-              <text class="progress-label">工程形象进度：{{item.progress}}%</text>
-              <view class="progress-bar">
-                <view class="progress-line" :style="{ width: item.progress + '%' }"></view>
-              </view>
-            </view>
-          </view>
+          <image class="project-image" :src="item.image || '/static/projects/default-project.png'" mode="aspectFill"></image>
           <view class="right-content">
             <view class="content">
               <view class="project-header">
@@ -165,6 +162,14 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+@keyframes jellyEffect {
+  0% { transform: scaleX(1); }
+  25% { transform: scaleX(1.05); }
+  50% { transform: scaleX(0.95); }
+  75% { transform: scaleX(1.02); }
+  100% { transform: scaleX(1); }
+}
+
 .project-container {
   min-height: 100vh;
   background: #F5F7FA;
@@ -222,50 +227,46 @@ onMounted(() => {
         align-items: flex-start;
         width: 100%;
 
-        .left-content {
-          margin-right: 24rpx;
-          display: flex;
-          flex-direction: column;
+        .project-image {
+          width: 100rpx;
+          height: 100rpx;
+          border-radius: 8rpx;
+          margin-right: 20rpx;
+          flex-shrink: 0;
+        }
+
+        .progress-text {
+          color: #409EFF;
+          font-weight: 600;
+          font-size: 24rpx;
+          padding: 0rpx 12rpx;
+          border-radius: 20rpx;
+          box-shadow: 0 2rpx 8rpx rgba(64, 158, 255, 0.15);
+          position: absolute;
+          bottom: 0;
+          right: 0;
           align-items: center;
-          
-          .project-image {
-            width: 160rpx;
-            height: 160rpx;
-            border-radius: 8rpx;
-            flex-shrink: 0;
-            margin-bottom: 8rpx;
-          }
+        }
 
-          .progress-container {
-            width: 160rpx;
-            
-            .progress-label {
-              font-size: 24rpx;
-              color: #666;
-              margin-bottom: 6rpx;
-              display: block;
-              text-align: center;
-            }
-
-            .progress-bar {
-              width: 100%;
-              height: 3rpx;
-              background: #f0f0f0;
-              border-radius: 2rpx;
-              overflow: hidden;
-              position: relative;
-            }
-
-            .progress-line {
-              position: absolute;
-              left: 0;
-              top: 0;
-              height: 100%;
-              background: linear-gradient(90deg, #409EFF 0%, #60A5FA 100%);
-              border-radius: 2rpx;
-              transition: width 0.3s ease;
-            }
-          }
+        .progress-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          background: linear-gradient(90deg,
+            rgba(64, 158, 255, 0.6) 0%,
+            rgba(64, 158, 255, 0.5) 15%,
+            rgba(64, 158, 255, 0.4) 30%,
+            rgba(64, 158, 255, 0.3) 45%,
+            rgba(64, 158, 255, 0.2) 60%,
+            rgba(64, 158, 255, 0.15) 75%,
+            rgba(64, 158, 255, 0.1) 90%,
+            rgba(64, 158, 255, 0.05) 100%);
+          z-index: 1;
+          transition: width 0.3s ease;
+          border-radius: 0 16rpx 16rpx 0;
+          transform-origin: left;
+          animation: jellyEffect 0.6s ease-in-out;
         }
 
         .right-content {
