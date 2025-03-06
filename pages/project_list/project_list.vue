@@ -32,9 +32,9 @@
         <view class="project-info">
           <image class="project-image" :src="item.image || '/static/title.png'" mode="aspectFill"></image>
           <view class="progress-container">
-            <view class="progress-row">
-              <text class="progress-label">工程形象进度：{{item.progress}}%</text>
-              <view class="progress-bar project-progress" :style="{ '--progress': item.progress + '%' }"></view>
+            <text class="progress-label">工程形象进度：{{item.progress}}%</text>
+            <view class="progress-bar">
+              <view class="progress-line" :style="{ width: item.progress + '%' }"></view>
             </view>
           </view>
           <view class="content">
@@ -213,61 +213,34 @@ onMounted(() => {
       position: relative;
       overflow: hidden;
 
-      .progress-text {
-        color: #409EFF;
-        font-weight: 600;
-        font-size: 24rpx;
-        padding: 0rpx 12rpx;
-        border-radius: 20rpx;
-        box-shadow: 0 2rpx 8rpx rgba(64, 158, 255, 0.15);
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        align-items: center;
-      }
-
-      .progress-bar {
-        position: relative;
+      .progress-container {
         width: 100%;
-        height: 4rpx;
-        background: #f0f0f0;
-        border-radius: 2rpx;
-        margin-bottom: 12rpx;
-        overflow: hidden;
+        margin: 16rpx 0;
+        
+        .progress-label {
+          font-size: 24rpx;
+          color: #666;
+          margin-bottom: 8rpx;
+          display: block;
+        }
 
-        &::after {
-          content: '';
+        .progress-bar {
+          width: 100%;
+          height: 3rpx;
+          background: #f0f0f0;
+          border-radius: 2rpx;
+          overflow: hidden;
+          position: relative;
+        }
+
+        .progress-line {
           position: absolute;
           left: 0;
           top: 0;
           height: 100%;
-          width: var(--progress, 0%);
-          transition: width 0.3s ease;
-        }
-      }
-
-      .project-progress {
-        &::after {
           background: linear-gradient(90deg, #409EFF 0%, #60A5FA 100%);
-        }
-      }
-
-      .procedure-progress {
-        &::after {
-          background: linear-gradient(90deg, #10B981 0%, #34D399 100%);
-        }
-        
-        .procedure-progress-text {
-          color: #10B981;
-          font-weight: 600;
-          font-size: 24rpx;
-          padding: 0rpx 12rpx;
-          border-radius: 20rpx;
-          box-shadow: 0 2rpx 8rpx rgba(16, 185, 129, 0.15);
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          align-items: center;
+          border-radius: 2rpx;
+          transition: width 0.3s ease;
         }
       }
 
@@ -314,47 +287,7 @@ onMounted(() => {
             }
           }
 
-          .progress-container {
-            margin: 16rpx 0;
-            width: 100%;
-            
-            .progress-row {
-              margin-bottom: 12rpx;
-              
-              .progress-label {
-                font-size: 24rpx;
-                color: #666;
-                margin-bottom: 6rpx;
-                display: block;
-              }
-              
-              .progress-bar {
-                width: 100%;
-                height: 3rpx;
-                background: #f0f0f0;
-                border-radius: 2rpx;
-                overflow: hidden;
-                position: relative;
-                
-                &::after {
-                  content: '';
-                  position: absolute;
-                  left: 0;
-                  top: 0;
-                  height: 100%;
-                  width: var(--progress, 0%);
-                  transition: width 0.3s ease;
-                  border-radius: 2rpx;
-                }
-              }
-              
-              .project-progress::after {
-                background: linear-gradient(90deg, #409EFF 0%, #60A5FA 100%);
-              }
-              
 
-            }
-          }
         }
       }
     }
