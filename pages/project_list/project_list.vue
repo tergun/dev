@@ -31,6 +31,12 @@
       <view class="project-item" v-else v-for="item in projectList" :key="item.id" @tap="handleProjectClick(item)">
         <view class="project-info">
           <image class="project-image" :src="item.image || '/static/title.png'" mode="aspectFill"></image>
+          <view class="progress-container">
+            <view class="progress-row">
+              <text class="progress-label">工程形象进度：{{item.progress}}%</text>
+              <view class="progress-bar project-progress" :style="{ '--progress': item.progress + '%' }"></view>
+            </view>
+          </view>
           <view class="content">
             <view class="project-header">
               <text class="project-name" style="width: 80%;">{{item.name}}</text>
@@ -39,12 +45,6 @@
             <view class="project-investor">
               <text class="label">投资主体：</text>
               <text class="value">{{item.investor}}</text>
-            </view>
-            <view class="progress-container">
-              <view class="progress-row">
-                <text class="progress-label">工程形象进度：{{item.progress}}%</text>
-                <view class="progress-bar project-progress" :style="{ '--progress': item.progress + '%' }"></view>
-              </view>
             </view>
           </view>
         </view>
@@ -315,7 +315,8 @@ onMounted(() => {
           }
 
           .progress-container {
-            margin-top: 16rpx;
+            margin: 16rpx 0;
+            width: 100%;
             
             .progress-row {
               margin-bottom: 12rpx;
