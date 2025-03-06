@@ -30,21 +30,23 @@
       </template>
       <view class="project-item" v-else v-for="item in projectList" :key="item.id" @tap="handleProjectClick(item)">
         <view class="project-info">
-          <image class="project-image" :src="item.image || '/static/title.png'" mode="aspectFill"></image>
-          <view class="progress-container">
-            <text class="progress-label">工程形象进度：{{item.progress}}%</text>
-            <view class="progress-bar">
-              <view class="progress-line" :style="{ width: item.progress + '%' }"></view>
-            </view>
+          <view class="left-content">
+            <image class="project-image" :src="item.image || '/static/title.png'" mode="aspectFill"></image>
           </view>
-          <view class="content">
+          <view class="right-content">
             <view class="project-header">
-              <text class="project-name" style="width: 80%;">{{item.name}}</text>
+              <text class="project-name">{{item.name}}</text>
               <image v-if="isRecentlyUpdated(item.updatedAt)" src="/static/projects/update-badge.png" class="update-badge" mode="aspectFit"></image>
             </view>
             <view class="project-investor">
               <text class="label">投资主体：</text>
               <text class="value">{{item.investor}}</text>
+            </view>
+            <view class="progress-container">
+              <text class="progress-label">工程形象进度：{{item.progress}}%</text>
+              <view class="progress-bar">
+                <view class="progress-line" :style="{ width: item.progress + '%' }"></view>
+              </view>
             </view>
           </view>
         </view>
@@ -247,20 +249,26 @@ onMounted(() => {
       .project-info {
         display: flex;
         align-items: flex-start;
+        width: 100%;
 
-        .project-image {
-          width: 100rpx;
-          height: 100rpx;
-          border-radius: 8rpx;
+        .left-content {
           margin-right: 20rpx;
-          flex-shrink: 0;
+          
+          .project-image {
+            width: 120rpx;
+            height: 120rpx;
+            border-radius: 8rpx;
+            flex-shrink: 0;
+          }
         }
 
-        .content {
+        .right-content {
           flex: 1;
-
+          
           .project-header {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 12rpx;
 
             .project-name {
@@ -268,6 +276,8 @@ onMounted(() => {
               font-weight: 500;
               color: #333333;
               line-height: 1.2;
+              flex: 1;
+              margin-right: 12rpx;
             }
           }
 
