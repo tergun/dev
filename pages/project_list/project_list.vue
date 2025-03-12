@@ -21,6 +21,18 @@
 				<input type="text" v-model="searchKey" @input="handleSearch" placeholder="搜索项目"
 					placeholder-class="placeholder" />
 			</view>
+			<!-- 筛选按钮 -->
+			<view class="filter-buttons">
+				<view class="filter-button" :class="{ active: filterStatus === 'all' }" @tap="setFilter('all')">
+					<text>全部</text>
+				</view>
+				<view class="filter-button" :class="{ active: filterStatus === 'completed' }" @tap="setFilter('completed')">
+					<text>已完成</text>
+				</view>
+				<view class="filter-button" :class="{ active: filterStatus === 'uncompleted' }" @tap="setFilter('uncompleted')">
+					<text>未完成</text>
+				</view>
+			</view>
 		</view>
 
 		<!-- 项目列表 -->
@@ -75,8 +87,9 @@
 	const loading = ref(false)
 
 	const searchKey = ref('')
+	const filterStatus = ref('all') // 筛选状态：all, completed, uncompleted
 	const isConnected = ref(true)
-	const projectList = ref([
+	const originalProjectList = ref([
 		{
 			id: 1,
 			name: '智慧城市建设项目',
@@ -115,6 +128,9 @@
 		}
 	])
 	
+	// 项目列表（经过筛选和搜索后的结果）
+	const projectList = ref([])
+	
 
 	// 检查是否最近7天内更新
 	const isRecentlyUpdated = (date) => {
@@ -122,18 +138,44 @@
 		return new Date(date) > sevenDaysAgo
 	}
 
-	// 搜索处理
-	const handleSearch = () => {
+	// 设置筛选状态
+	const setFilter = (status) => {
+		filterStatus.value = status
+		applyFilters()
+	}
+	
+	// 应用筛选和搜索
+	const applyFilters = () => {
 		loading.value = true
 		setTimeout(() => {
 			const keyword = searchKey.value.toLowerCase()
-			projectList.value = projectList.value.filter(item =>
-				item.name.toLowerCase().includes(keyword) ||
-				item.investor.toLowerCase().includes(keyword)
-
-			)
+			
+			// 先应用筛选条件
+			let filteredList = [...originalProjectList.value]
+			
+			// 根据完成状态筛选
+			if (filterStatus.value === 'completed') {
+				filteredList = filteredList.filter(item => item.progress === 100)
+			} else if (filterStatus.value === 'uncompleted') {
+				filteredList = filteredList.filter(item => item.progress < 100)
+			}
+			
+			// 再应用搜索关键词
+			if (keyword) {
+				filteredList = filteredList.filter(item =>
+					item.name.toLowerCase().includes(keyword) ||
+					item.investor.toLowerCase().includes(keyword)
+				)
+			}
+			
+			projectList.value = filteredList
 			loading.value = false
 		}, 300)
+	}
+	
+	// 搜索处理
+	const handleSearch = () => {
+		applyFilters()
 	}
 
 	// 查看项目详情
@@ -161,12 +203,14 @@
 			success: (res) => {
 				loading.value = false
 				console.log('项目列表',res.data)
-				projectList.value = res.data.result.records.map(item=>({
+				originalProjectList.value = res.data.result.records.map(item=>({
 					id:item.id,
 					name:item.xmmc,
 					investor:item.tzzt,
 					progress:item.wcqk					
 				}))
+				// 初始化显示所有项目
+				applyFilters()
 			},
 			fail: (res) => {
 				console.log('失败')
@@ -185,15 +229,13 @@
 	}
 	onShow(() => {
 		loading.value = true
-	  getProjectList()
+		getProjectList()
 	});
 	
 
 	onMounted(() => {
-		// console.log(isConnected)
-		// loading.value = true
-		// getProjectList()
-		// handleSearch()
+		// 初始化项目列表
+		projectList.value = [...originalProjectList.value]
 	})
 	
 </script>
@@ -232,6 +274,7 @@
 				display: flex;
 				align-items: center;
 				padding: 0 30rpx;
+				margin-bottom: 20rpx;
 
 				.search-icon {
 					width: 32rpx;
@@ -255,6 +298,41 @@
 
 				.placeholder {
 					color: #999999;
+				}
+			}
+			
+			.filter-buttons {
+				display: flex;
+				justify-content: space-between;
+				margin-bottom: 20rpx;
+				
+				.filter-button {
+					flex: 1;
+					height: 70rpx;
+					background: #FFFFFF;
+					border-radius: 35rpx;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					margin: 0 10rpx;
+					font-size: 28rpx;
+					color: #666666;
+					box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+					transition: all 0.3s ease;
+					
+					&:first-child {
+						margin-left: 0;
+					}
+					
+					&:last-child {
+						margin-right: 0;
+					}
+					
+					&.active {
+						background: #409EFF;
+						color: #FFFFFF;
+						box-shadow: 0 2rpx 12rpx rgba(64, 158, 255, 0.3);
+					}
 				}
 			}
 		}
