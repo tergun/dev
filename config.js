@@ -5,6 +5,8 @@ export default {
     
     const endpoints = {
       tokenVerify: '/auth/verify',
+      login: '/auth/login',
+      verificationCode: '/auth/captcha?checkKey=',
       // Add other endpoints as needed
     };
     
