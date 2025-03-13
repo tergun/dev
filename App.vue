@@ -11,9 +11,9 @@
   
   // 提取token验证到单独的函数
   const verifyToken = () => {
-    // 设置初始状态 - 不预先设置loading状态，避免显示加载动画
-    // uni.setStorageSync('isLoading', true)
-    // uni.setStorageSync('isConnected', false)
+    // 确保在验证开始前设置正确的初始状态
+    uni.setStorageSync('isLoading', false)
+    uni.setStorageSync('isConnected', true)
     
     // 避免重复重定向
     if (isRedirecting.value) return
@@ -37,6 +37,15 @@
       header: {
         'X-Access-Token': token
       },
+    // 添加超时处理，防止请求长时间未响应导致白屏
+    const timeoutId = setTimeout(() => {
+      if (isRedirecting.value) {
+        console.log('Token验证超时，显示登录页面')
+        uni.setStorageSync('isLoading', false)
+        uni.setStorageSync('isConnected', true)
+        isRedirecting.value = false
+      }
+    }, 5000) // 5秒超时
       success: (res) => {
         console.log(res.data)
         if (res.data == true) {
@@ -62,9 +71,11 @@
         uni.setStorageSync('isConnected', true)
       },
       complete: () => {
+        // 清除超时定时器
+        clearTimeout(timeoutId)
         // 只重置重定向标志，不覆盖success/fail回调中的状态设置
         isRedirecting.value = false
-        console.log('***************')
+        console.log('Token验证完成')
       }
     })
   }
@@ -76,9 +87,10 @@
   })
   
   onShow(() => {
-    console.log('App Show')
+    console.log('App Show - 从后台返回')
     // 应用从后台返回时重新验证token
     // 这可以防止应用在后台时token过期导致的白屏问题
+    console.log('开始验证token...')
     verifyToken()
   })
   
