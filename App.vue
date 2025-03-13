@@ -27,13 +27,17 @@
     const token = uni.getStorageSync('token')
     if (!token) {
       console.log('没有token，准备显示登录页面')
-      // 没有token，延迟3秒后设置登录页面状态
+      // 没有token，延迟3秒后设置登录页面状态并跳转
       setTimeout(() => {
         uni.setStorageSync('isLoading', false)
         uni.setStorageSync('isConnected', true)
         uni.setStorageSync('appReady', true) // 标记App初始化完成
         isRedirecting.value = false
         console.log('token失效了，3秒后跳转到登录页面')
+        // 显式跳转到登录页面
+        uni.reLaunch({
+          url: '/pages/index/index'
+        })
       }, 3000)
       return
     }
@@ -47,6 +51,10 @@
           uni.setStorageSync('isConnected', true)
           uni.setStorageSync('appReady', true) // 标记App初始化完成
           isRedirecting.value = false
+          // 显式跳转到登录页面
+          uni.reLaunch({
+            url: '/pages/index/index'
+          })
         }, 3000)
       }
     }, 5000) // 5秒超时
@@ -69,7 +77,7 @@
             url: '/pages/project_list/project_list'
           })
         } else {
-          // Token无效 - 延迟3秒后设置登录页面状态
+          // Token无效 - 延迟3秒后设置登录页面状态并跳转
           setTimeout(() => {
             uni.setStorageSync('isLoading', false)
             uni.setStorageSync('isConnected', true)
@@ -77,17 +85,25 @@
             // 清除无效token
             uni.removeStorageSync('token')
             console.log('token失效了，3秒后跳转到登录页面')
+            // 显式跳转到登录页面
+            uni.reLaunch({
+              url: '/pages/index/index'
+            })
           }, 3000)
         }
       },
       fail: (err) => {
-        // 请求失败 - 延迟3秒后设置登录页面状态
+        // 请求失败 - 延迟3秒后设置登录页面状态并跳转
         console.error('Token验证失败:', err)
         setTimeout(() => {
           uni.setStorageSync('isLoading', false)
           uni.setStorageSync('isConnected', true)
           uni.setStorageSync('appReady', true) // 标记App初始化完成
           console.log('请求失败，3秒后跳转到登录页面')
+          // 显式跳转到登录页面
+          uni.reLaunch({
+            url: '/pages/index/index'
+          })
         }, 3000)
       },
       complete: () => {
