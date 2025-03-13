@@ -11,9 +11,9 @@
   
   // 提取token验证到单独的函数
   const verifyToken = () => {
-    // 设置初始状态
-    uni.setStorageSync('isLoading', true)
-    uni.setStorageSync('isConnected', false)
+    // 设置初始状态 - 不预先设置loading状态，避免显示加载动画
+    // uni.setStorageSync('isLoading', true)
+    // uni.setStorageSync('isConnected', false)
     
     // 避免重复重定向
     if (isRedirecting.value) return
