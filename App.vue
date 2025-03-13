@@ -30,15 +30,8 @@
       return
     }
     
-    // Token存在，验证它
-    uni.request({
-      url: config.getUrl('tokenVerify'),
-      method: 'GET',
-      header: {
-        'X-Access-Token': token
-      },
     // 添加超时处理，防止请求长时间未响应导致白屏
-    const timeoutId = setTimeout(() => {
+    let timeoutId = setTimeout(() => {
       if (isRedirecting.value) {
         console.log('Token验证超时，显示登录页面')
         uni.setStorageSync('isLoading', false)
@@ -46,6 +39,14 @@
         isRedirecting.value = false
       }
     }, 5000) // 5秒超时
+    
+    // Token存在，验证它
+    uni.request({
+      url: config.getUrl('tokenVerify'),
+      method: 'GET',
+      header: {
+        'X-Access-Token': token
+      },
       success: (res) => {
         console.log(res.data)
         if (res.data == true) {
