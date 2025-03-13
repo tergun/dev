@@ -3,6 +3,9 @@ onMounted(() => {
   console.log("时间戳1", formData.value.timesTamp)
   
   // 检查App是否已完成初始化
+  let retryCount = 0;
+  const maxRetries = 25; // 最多等待5秒 (25 * 200ms)
+  
   const checkAppReady = () => {
     const appReady = uni.getStorageSync('appReady')
     if (appReady) {
@@ -12,9 +15,18 @@ onMounted(() => {
       console.log('onMounted - App已初始化，状态:', loading.value, isConnected.value)
       getverificationCode()
     } else {
-      // App尚未初始化完成，等待200ms后再次检查
-      console.log('onMounted - App尚未初始化，等待...')
-      setTimeout(checkAppReady, 200)
+      retryCount++;
+      if (retryCount < maxRetries) {
+        // App尚未初始化完成，等待200ms后再次检查
+        console.log(`onMounted - App尚未初始化，等待... (${retryCount}/${maxRetries})`)
+        setTimeout(checkAppReady, 200)
+      } else {
+        // 超过最大重试次数，强制显示登录页面
+        console.log('等待App初始化超时，强制显示登录页面')
+        loading.value = false
+        isConnected.value = true
+        getverificationCode()
+      }
     }
   }
   
