@@ -9,11 +9,15 @@
   // 用于防止重复重定向
   const isRedirecting = ref(false)
   
+  // 初始化应用状态
+  uni.setStorageSync('appReady', false) // 新增：标记App是否完成初始化
+  
   // 提取token验证到单独的函数
   const verifyToken = () => {
-    // 确保在验证开始前设置正确的初始状态
-    uni.setStorageSync('isLoading', false)
-    uni.setStorageSync('isConnected', true)
+    // 设置初始状态 - 显示加载动画
+    uni.setStorageSync('isLoading', true)
+    uni.setStorageSync('isConnected', false)
+    uni.setStorageSync('appReady', false) // 标记App正在初始化
     
     // 避免重复重定向
     if (isRedirecting.value) return
@@ -22,10 +26,12 @@
     // 检查token是否存在
     const token = uni.getStorageSync('token')
     if (!token) {
+      console.log('没有token，准备显示登录页面')
       // 没有token，延迟3秒后设置登录页面状态
       setTimeout(() => {
         uni.setStorageSync('isLoading', false)
         uni.setStorageSync('isConnected', true)
+        uni.setStorageSync('appReady', true) // 标记App初始化完成
         isRedirecting.value = false
         console.log('token失效了，3秒后跳转到登录页面')
       }, 3000)
@@ -39,6 +45,7 @@
         setTimeout(() => {
           uni.setStorageSync('isLoading', false)
           uni.setStorageSync('isConnected', true)
+          uni.setStorageSync('appReady', true) // 标记App初始化完成
           isRedirecting.value = false
         }, 3000)
       }
@@ -52,11 +59,12 @@
         'X-Access-Token': token
       },
       success: (res) => {
-        console.log(res.data)
+        console.log('Token验证结果:', res.data)
         if (res.data == true) {
           // Token有效 - 设置状态并重定向到项目列表
-          uni.setStorageSync('isLoading', false)  // 改为false以避免显示加载动画
+          uni.setStorageSync('isLoading', false)
           uni.setStorageSync('isConnected', false)
+          uni.setStorageSync('appReady', true) // 标记App初始化完成
           uni.switchTab({
             url: '/pages/project_list/project_list'
           })
@@ -65,6 +73,7 @@
           setTimeout(() => {
             uni.setStorageSync('isLoading', false)
             uni.setStorageSync('isConnected', true)
+            uni.setStorageSync('appReady', true) // 标记App初始化完成
             // 清除无效token
             uni.removeStorageSync('token')
             console.log('token失效了，3秒后跳转到登录页面')
@@ -77,13 +86,13 @@
         setTimeout(() => {
           uni.setStorageSync('isLoading', false)
           uni.setStorageSync('isConnected', true)
+          uni.setStorageSync('appReady', true) // 标记App初始化完成
           console.log('请求失败，3秒后跳转到登录页面')
         }, 3000)
       },
       complete: () => {
         // 清除超时定时器
         clearTimeout(timeoutId)
-        // 只重置重定向标志，不覆盖success/fail回调中的状态设置
         console.log('Token验证完成')
       }
     })
@@ -91,14 +100,14 @@
   
   // 生命周期钩子
   onLaunch(() => {
+    console.log('App onLaunch - 开始验证token')
     // 应用启动时验证token
     verifyToken()
   })
   
   onShow(() => {
-    console.log('App Show - 从后台返回')
+    console.log('App onShow - 从后台返回')
     // 应用从后台返回时重新验证token
-    // 这可以防止应用在后台时token过期导致的白屏问题
     console.log('开始验证token...')
     verifyToken()
   })

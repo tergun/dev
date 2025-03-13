@@ -1,0 +1,23 @@
+// 在index.vue的onMounted中添加
+onMounted(() => {
+  console.log("时间戳1", formData.value.timesTamp)
+  
+  // 检查App是否已完成初始化
+  const checkAppReady = () => {
+    const appReady = uni.getStorageSync('appReady')
+    if (appReady) {
+      // App已初始化完成，读取状态
+      loading.value = uni.getStorageSync('isLoading')
+      isConnected.value = uni.getStorageSync('isConnected')
+      console.log('onMounted - App已初始化，状态:', loading.value, isConnected.value)
+      getverificationCode()
+    } else {
+      // App尚未初始化完成，等待200ms后再次检查
+      console.log('onMounted - App尚未初始化，等待...')
+      setTimeout(checkAppReady, 200)
+    }
+  }
+  
+  // 开始检查
+  checkAppReady()
+})
