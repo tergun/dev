@@ -41,7 +41,7 @@
         console.log(res.data)
         if (res.data == true) {
           // Token有效 - 设置状态并重定向到项目列表
-          uni.setStorageSync('isLoading', true)
+          uni.setStorageSync('isLoading', false)  // 改为false以避免显示加载动画
           uni.setStorageSync('isConnected', false)
           uni.switchTab({
             url: '/pages/project_list/project_list'
@@ -62,10 +62,8 @@
         uni.setStorageSync('isConnected', true)
       },
       complete: () => {
-        uni.setStorageSync('isLoading', false)
-        uni.setStorageSync('isConnected', true)
+        // 只重置重定向标志，不覆盖success/fail回调中的状态设置
         isRedirecting.value = false
-        
         console.log('***************')
       }
     })
