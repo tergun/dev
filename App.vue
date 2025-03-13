@@ -22,21 +22,25 @@
     // 检查token是否存在
     const token = uni.getStorageSync('token')
     if (!token) {
-      // 没有token，设置登录页面状态
-      uni.setStorageSync('isLoading', false)
-      uni.setStorageSync('isConnected', true)
-      isRedirecting.value = false
-      console.log('token失效了')
+      // 没有token，延迟3秒后设置登录页面状态
+      setTimeout(() => {
+        uni.setStorageSync('isLoading', false)
+        uni.setStorageSync('isConnected', true)
+        isRedirecting.value = false
+        console.log('token失效了，3秒后跳转到登录页面')
+      }, 3000)
       return
     }
     
     // 添加超时处理，防止请求长时间未响应导致白屏
     let timeoutId = setTimeout(() => {
       if (isRedirecting.value) {
-        console.log('Token验证超时，显示登录页面')
-        uni.setStorageSync('isLoading', false)
-        uni.setStorageSync('isConnected', true)
-        isRedirecting.value = false
+        console.log('Token验证超时，3秒后显示登录页面')
+        setTimeout(() => {
+          uni.setStorageSync('isLoading', false)
+          uni.setStorageSync('isConnected', true)
+          isRedirecting.value = false
+        }, 3000)
       }
     }, 5000) // 5秒超时
     
@@ -57,25 +61,29 @@
             url: '/pages/project_list/project_list'
           })
         } else {
-          // Token无效 - 设置登录页面状态
-          uni.setStorageSync('isLoading', false)
-          uni.setStorageSync('isConnected', true)
-          // 清除无效token
-          uni.removeStorageSync('token')
-          console.log('token失效了')
+          // Token无效 - 延迟3秒后设置登录页面状态
+          setTimeout(() => {
+            uni.setStorageSync('isLoading', false)
+            uni.setStorageSync('isConnected', true)
+            // 清除无效token
+            uni.removeStorageSync('token')
+            console.log('token失效了，3秒后跳转到登录页面')
+          }, 3000)
         }
       },
       fail: (err) => {
-        // 请求失败 - 设置登录页面状态
+        // 请求失败 - 延迟3秒后设置登录页面状态
         console.error('Token验证失败:', err)
-        uni.setStorageSync('isLoading', false)
-        uni.setStorageSync('isConnected', true)
+        setTimeout(() => {
+          uni.setStorageSync('isLoading', false)
+          uni.setStorageSync('isConnected', true)
+          console.log('请求失败，3秒后跳转到登录页面')
+        }, 3000)
       },
       complete: () => {
         // 清除超时定时器
         clearTimeout(timeoutId)
         // 只重置重定向标志，不覆盖success/fail回调中的状态设置
-        isRedirecting.value = false
         console.log('Token验证完成')
       }
     })
